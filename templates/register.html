@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+<form action="{{ url_for('main.register') }}" method="post">
+  <div class="form-group">
+    <label for="user_id">이름</label>
+    <input
+      class="form-control"
+      type="text"
+      name="user_id"
+      id="user_id"
+      placeholder="이름 입력"
+    />
+  </div>
+  <div class="form-group">
+    <label for="user_id">이메일</label>
+    <input
+      class="form-control"
+      type="text"
+      name="user_id"
+      id="user_id"
+      placeholder="이메일 입력"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">비밀번호</label>
+    <input
+      class="form-control"
+      name="password"
+      type="password"
+      placeholder="비밀번호 입력"
+    />
+  </div>
+  <div class="form-group">
+    <label for="password">비밀번호 확인</label>
+    <input
+      class="form-control"
+      name="check_password"
+      type="password"
+      placeholder="비밀번호 확인"
+    />
+  </div>
+  <p></p>
+  <input class="btn btn-primary" type="submit" value="회원가입!" />
+</form>
+{% endblock %}

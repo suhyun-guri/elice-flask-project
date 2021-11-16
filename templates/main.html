@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}메인 페이지{% endblock %}
+
+{% block page_content %}    
+    {% if book_list %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <ul class="list-group">
+                    {% for book in book_list%}
+                        <a href="/detail/{{ book.id }}"><li class="list-group-item list-group-item-action">{{ book.book_name }}</li></a>
+                    {% endfor %}
+                </ul>                
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p>가게가 없어요...</p>
+    {% endif %}
+{% endblock %}
