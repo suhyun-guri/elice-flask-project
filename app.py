@@ -16,8 +16,7 @@ def create_app():
     from views import main_view
     from models import models
     app.register_blueprint(main_view.bp)
-    # app.register_blueprint(store_detail_view.bp)
-    # app.register_blueprint(oauth.bp)
+    # app.register_blueprint(book_detail_view.bp)
 
     app.secret_key = "seeeeeeeeeeeecret"
     app.config['SESSION_TYPE'] = 'filesystem'

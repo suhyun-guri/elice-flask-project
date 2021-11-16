@@ -17,9 +17,9 @@
             
             <ul class="nav navbar-nav navbar-right">
                 <!-- 네비게이션 바-->
-                {% if session['user_id'] %}
+                {% if session['email'] %}
                     <li class="nav-item">
-                        <span class="nav-link" style="color: white;">안녕하세요! {{ session['nickname'] }} 님!</span>
+                        <span class="nav-link" style="color: white;">안녕하세요! {{ session['name'] }} 님!</span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.home') }}">대여기록</a>
@@ -28,7 +28,7 @@
                         <a class="nav-link" href="{{ url_for('main.home') }}">반납하기</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.home') }}">로그아웃</a>               
+                        <a class="nav-link" href="{{ url_for('main.logout') }}">로그아웃</a>               
                     </li>
                 {% else %}
                     <li class="nav-item">
