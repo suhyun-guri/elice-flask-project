@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+    {% if book %}
+        <form action="{{ url_for('main.login') }}" method="post">
+            <p> 책이름 : {{ book.book_name }}</p>
+            <p> 출판사 : {{ book.publisher }}</p>
+            <p> 저자 : {{ book.author }}</p>
+            <p> 출간일 : {{ book.publication_date }}</p>
+            <p> 페이지 수 : {{ book.pages }}</p>
+            <p> ISBN 코드 : {{ book.isbn }}</p>
+
+            <div>
+                <p> 책 소개 </p>
+                <p> {{ book.description }} </p>
+            </div>
+        </form>
+    {% endif %}
+{% endblock %}

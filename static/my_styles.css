@@ -1,6 +1,11 @@
 a {
     all: unset;
 }
-.booklist {
+/* .booklist {
     background-color: red;
+} */
+.contain {
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    border: 1px solid;
 }
