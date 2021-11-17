@@ -10,7 +10,11 @@ class book_info(db.Model):
     pages = db.Column(db.Integer)
     isbn = db.Column(db.Integer)
     description = db.Column(db.Text)
-    link = db.Column(db.String(1000))
+    link = db.Column(db.String(1000)),
+    count = db.Column(db.Integer)
+    
+    bookid1 = db.relationship("rental_return", backref="book_info")
+    bookid2 = db.relationship("Review", backref="book_info")
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -22,4 +26,22 @@ class User(db.Model):
         self.name = name
         self.email = email
         self.password = password
+    rentalid1 = db.relationship("rental_return", backref="user")
+    rentalid2 = db.relationship("Review", backref="user")
+
+class rental_return(db.Model):
+    __tablename__ = 'rental_return'
+    id =  db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    book_id = db.Column(db.Integer, db.ForeignKey("book_info.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    rental_date = db.Column(db.Date)
+    return_date = db.Column(db.Date)
+    status = db.Column(db.Boolean)
     
+class Review(db.Model):
+    __tablename__ = 'Review'
+    id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
+    book_id = db.Column(db.Integer, db.ForeignKey("book_info.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    star = db.Column(db.Integer)
+    content = db.Column(db.Text)
