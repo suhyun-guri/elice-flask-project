@@ -13,7 +13,7 @@ class book_info(db.Model):
     link = db.Column(db.String(1000)),
     count = db.Column(db.Integer)
     
-    bookid1 = db.relationship("rental_return", backref="book_info")
+    bookid1 = db.relationship("Rental_return", backref="book_info")
     bookid2 = db.relationship("Review", backref="book_info")
 
 class User(db.Model):
@@ -26,10 +26,10 @@ class User(db.Model):
         self.name = name
         self.email = email
         self.password = password
-    rentalid1 = db.relationship("rental_return", backref="user")
+    rentalid1 = db.relationship("Rental_return", backref="user")
     rentalid2 = db.relationship("Review", backref="user")
 
-class rental_return(db.Model):
+class Rental_return(db.Model):
     __tablename__ = 'rental_return'
     id =  db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     book_id = db.Column(db.Integer, db.ForeignKey("book_info.id"), nullable=False)
@@ -37,6 +37,13 @@ class rental_return(db.Model):
     rental_date = db.Column(db.Date)
     return_date = db.Column(db.Date)
     status = db.Column(db.Boolean)
+    
+    def __init__(self,book_id,user_id,rental_date,return_date,status):
+        self.book_id = book_id
+        self.user_id = user_id
+        self.rental_date = rental_date
+        self.return_date = return_date
+        self.status = status
     
 class Review(db.Model):
     __tablename__ = 'Review'

@@ -26,6 +26,9 @@
     <section class="review-box">
         <h3 style="font-family: 'EliceDigitalBaeum_Bold';">Review</h3>
         <p></p>
+        {% if not reviews %}
+            <div> 아직 리뷰가 없습니다. </div>
+        {% endif %}
         {% for review in reviews%}
                 <div style="border: 1px solid; padding: 0.7em; margin: 0.5em">
                     <span>작성자 : {{ review.user_id }}</span><br>

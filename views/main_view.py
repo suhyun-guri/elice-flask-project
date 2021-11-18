@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash, jsonify
 from models.models import *
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import timedelta, datetime
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -54,3 +55,28 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for('main.home'))
+
+@bp.route('/rental/<int:book_id>')
+def rental(book_id):
+    target_book = book_info.query.filter(book_info.id == book_id).first()
+    rental_check = Rental_return.query.filter(Rental_return.book_id==book_id).first()
+    user_id = session['id']
+    if target_book.count >= 1:
+        if rental_check:
+            if (rental_check.user_id == user_id) and (rental_check.status==True):
+                flash("이미 빌린 책입니다.")
+                return redirect(url_for("main.home"))
+        nowDate = datetime.now()
+        duration = timedelta(weeks=2)
+        endDate = datetime.now() + duration
+        
+        newRental = Rental_return(book_id, user_id, nowDate, endDate, True)
+        
+        target_book.count -= 1
+        db.session.add(newRental)
+        db.session.commit()
+        flash(f"{target_book.book_name}을 대여하였습니다.")
+    elif target_book.count == 0:
+        flash(f"[{target_book.book_name}]의 재고가 없어 대여가 불가능합니다.")
+    
+    return redirect(url_for("main.home"))
