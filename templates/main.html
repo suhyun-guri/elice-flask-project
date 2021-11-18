@@ -15,7 +15,9 @@
                                 <img src = "{{url_for('static', filename='/image/'+loop.index|string + '.jpg')}}"  height="115" width="100">
                                 <p>{{ book.book_name }}</p>
                                 <p>{{ book.count }} 권 남음</p>
-                                <input class="btn btn-primary" type="submit" value="대여하기">
+                                {% if session['email'] %}
+                                    <input class="btn btn-primary" type="submit" value="대여하기">
+                                {% endif %}
                             </li>
                         </a>
                     {% endfor %}
