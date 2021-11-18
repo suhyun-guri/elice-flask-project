@@ -44,7 +44,7 @@ def login():
             return redirect(url_for('main.login'))
         else:
             session.clear()
-            session['email'] = email
+            session['id'] = user.id
             session['name'] = user.name
             
         flash(f"{user.name}님, 환영합니다🎉😃")

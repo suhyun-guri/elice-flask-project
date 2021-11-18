@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark border-bottom" style="background-color: #404040;">
     <div class="container">
-        <a class="navbar-brand" href="{{ url_for('main.home') }}">엘리스 도서관</a>
+        <a class="navbar-brand" href="{{ url_for('main.home') }}">📚 엘리스 도서관 📚</a>
         <button
             class="navbar-toggler ml-auto"
             type="button"
@@ -17,7 +17,7 @@
             
             <ul class="nav navbar-nav navbar-right">
                 <!-- 네비게이션 바-->
-                {% if session['email'] %}
+                {% if session['id'] %}
                     <li class="nav-item">
                         <span class="nav-link" style="color: white;">안녕하세요! {{ session['name'] }} 님!</span>
                     </li>

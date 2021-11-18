@@ -1,19 +1,60 @@
 {% extends "base.html" %}
-
+{% block title %}엘리스 도서관 > 자세히 > {{book.book_name}}{% endblock %}
 {% block page_content %}
-    {% if book %}
-        <form action="{{ url_for('main.login') }}" method="post">
-            <p> 책이름 : {{ book.book_name }}</p>
-            <p> 출판사 : {{ book.publisher }}</p>
-            <p> 저자 : {{ book.author }}</p>
-            <p> 출간일 : {{ book.publication_date }}</p>
-            <p> 페이지 수 : {{ book.pages }}</p>
-            <p> ISBN 코드 : {{ book.isbn }}</p>
+    <section class='py-5'>
+        <div class="container px-4 px-lg-5 my-5">
+            {% if book %}
+                <div class="row gx-4 gx-lg-5 align-items-center">
+                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
+                    <div class="book-detail-page col-md-6">
+                        <p class="display-5 fw-bolder">{{ book.book_name }}</p>
+                        <p> 출판사 : {{ book.publisher }}</p>
+                        <p> 저자 : {{ book.author }}</p>
+                        <p> 출간일 : {{ book.publication_date }}</p>
+                        <p> 페이지 수 : {{ book.pages }}</p>
+                        <p> ISBN 코드 : {{ book.isbn }}</p>
+                        <div>
+                            <p> 책 소개 </p>
+                            <p> {{ book.description }} </p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
 
-            <div>
-                <p> 책 소개 </p>
-                <p> {{ book.description }} </p>
-            </div>
-        </form>
-    {% endif %}
+    <section class="review-box">
+        <h3 style="font-family: 'EliceDigitalBaeum_Bold';">Review</h3>
+        <p></p>
+        {% for review in reviews%}
+                <div style="border: 1px solid; padding: 0.7em; margin: 0.5em">
+                    <span>작성자 : {{ review.user_id }}</span><br>
+                    {% for i in range(review.star) %}
+                        <span class="star">⭐</span>
+                    {% endfor %}
+                    <br>
+                    <span> {{review.content}} </span>
+                    
+                </div>
+        {% endfor %}
+
+        {% if session['id'] %}
+            
+            <form action="{{ url_for('book_detail.write_review', book_id=book.id) }}" name="myform" id="myform" method="post">
+                <fieldset>
+                    <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">⭐</label>
+                    <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">⭐</label>
+                    <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">⭐</label>
+                    <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">⭐</label>
+                    <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">⭐</label>
+                </fieldset>
+                
+                <div class="form-group">
+                    <input class="form-control" name="review" id="review" placeholder="리뷰를 작성해주세요."></input>
+                </div>
+                <p></p>
+                <input class="btn btn-primary" type="submit" value="리뷰 올리기">
+            </form> 
+        {% endif %}
+    </section>
 {% endblock %}

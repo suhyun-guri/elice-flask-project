@@ -45,3 +45,9 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     star = db.Column(db.Integer)
     content = db.Column(db.Text)
+    
+    def __init__(self, book_id, user_id, star, content):
+        self.book_id = book_id
+        self.user_id = user_id
+        self.star = star
+        self.content = content

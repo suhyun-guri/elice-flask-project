@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% block title %}엘리스 도서관 로그인{% endblock %}
 {% block page_content %}
     <form action="{{ url_for('main.login') }}" method="post">
         <div class="form-group">

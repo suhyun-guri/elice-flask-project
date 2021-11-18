@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}메인 페이지{% endblock %}
+{% block title %}엘리스 도서관{% endblock %}
 
 {% block page_content %}    
     {% if book_list %}
-    <div class="container">
+    <h2 class="book-list-title"> 📖 책 목록 📖</h2>
+    <div class="container px-4 px-lg-5 mt-5">
         <div class="row">
             <div class="col-12">
                 <ul class="booklist">
@@ -15,9 +16,12 @@
                                 <img src = "{{url_for('static', filename='/image/'+loop.index|string + '.jpg')}}"  height="115" width="100">
                                 <p>{{ book.book_name }}</p>
                                 <p>{{ book.count }} 권 남음</p>
-                                {% if session['email'] %}
-                                    <input class="btn btn-primary" type="submit" value="대여하기">
-                                {% endif %}
+                                <p> ⭐⭐⭐⭐⭐ </p>
+                                <form action="{{ url_for('main.home')}}">
+                                    {% if session['id'] %}
+                                        <input class="btn btn-primary" type="submit" value="대여하기">
+                                    {% endif %}
+                                </form>
                             </li>
                         </a>
                     {% endfor %}
@@ -26,6 +30,6 @@
         </div>
     </div>
     {% else %}
-    <p>가게가 없어요...</p>
+    <p>책이 없어요...</p>
     {% endif %}
 {% endblock %}
