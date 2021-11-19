@@ -1,3 +1,4 @@
+from re import L
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash, jsonify
 from models.models import *
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -58,12 +59,12 @@ def logout():
 
 @bp.route('/rental/<int:book_id>')
 def rental(book_id):
-    target_book = book_info.query.filter(book_info.id == book_id).first()
-    rental_check = Rental_return.query.filter(Rental_return.book_id==book_id).first()
     user_id = session['id']
+    target_book = book_info.query.filter(book_info.id == book_id).first()
+    rental_check = Rental_return.query.filter(Rental_return.book_id==book_id, Rental_return.user_id == user_id).first()
     if target_book.count >= 1:
         if rental_check:
-            if (rental_check.user_id == user_id) and (rental_check.status==True):
+            if rental_check.status==True:
                 flash("이미 빌린 책입니다.")
                 return redirect(url_for("main.home"))
         nowDate = datetime.now()
@@ -80,3 +81,22 @@ def rental(book_id):
         flash(f"[{target_book.book_name}]의 재고가 없어 대여가 불가능합니다.")
     
     return redirect(url_for("main.home"))
+
+@bp.route('/return_page')
+def return_page():
+    user_id = session['id']
+    myrental = Rental_return.query.filter(Rental_return.user_id == user_id,Rental_return.status == True ).all()
+    book_list = book_info.query.all()
+    return render_template('return_page.html', myrental = myrental, book_list = book_list)
+
+@bp.route('/return/<int:book_id>')
+def return_book(book_id):
+    user_id = session['id']
+    myrental = Rental_return.query.filter(Rental_return.user_id == user_id,Rental_return.status == True, Rental_return.book_id == book_id).first()
+    myrental.status = False
+    
+    book = book_info.query.filter(book_info.id == myrental.book_id).first()
+    book.count += 1
+    db.session.commit()
+    flash(f"{book.book_name}이 반납완료되었습니다.")
+    return redirect(url_for('main.return_page'))

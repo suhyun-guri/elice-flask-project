@@ -6,7 +6,10 @@
     {% if book_list %}
     <h2 class="book-list-title"> 📖 책 목록 📖</h2><br>
     {% if session['id'] %}
-        <span class="book-list-title"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
+        <span class="book-list-title"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span><br>
+        <span class="book-list-title"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
+    {% else %}
+        <span class="book-list-title"> <span style='color:blue'>로그인</span>하고 책을 대여해보세요.</span>
     {% endif %}
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row">
@@ -15,8 +18,8 @@
                     {% for book in book_list%}
                         <a href="/detail/{{ book.id }}">
                             <li class="list-group-item list-group-item-action">
-                                <img src = "{{url_for('static', filename='/image/'+loop.index|string + '.png')}}"  height="115" width="100">
-                                <img src = "{{url_for('static', filename='/image/'+loop.index|string + '.jpg')}}"  height="115" width="100">
+                                <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
+                                <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
                                 <p>{{ book.book_name }}</p>
                                 <p>{{ book.count }} 권 남음</p>
                                 <p> ⭐⭐⭐⭐⭐ </p>

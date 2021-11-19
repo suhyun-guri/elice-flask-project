@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}반납하기{% endblock %}
+{% block page_content %}
+
+<h2 class="book-list-title"> 📖 대여 책 목록 📖</h2><br>
+{% if myrental %}
+    {% if session['id'] %}
+        <span class="book-list-title"> <span style='color:blue'>반납하기</span>를 눌러 책을 반납하세요.</span>
+    {% endif %}
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row">
+            <div class="col-12">
+                <ul class="booklist">
+                    {% for rental in myrental%}
+                        {% for book in book_list %}
+                            {% if rental.book_id == book.id %}
+                                <a href="/detail/{{ book.id }}">
+                                    <li class="list-group-item list-group-item-action">
+                                        <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
+                                        <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
+
+                                        <p>{{ book.book_name }}</p>
+                                        <p>{{ rental.rental_date }} ~ {{ rental.return_date }}</p>
+                                        <p> ⭐⭐⭐⭐⭐ </p>
+                                        <form action="{{ url_for('main.return_book', book_id=book.id)}}">
+                                            <input class="btn btn-primary" type="submit" value="반납하기">
+                                        </form>
+                                    </li>
+                                </a>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </ul>                
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <h2 class="book-list-title"> 빌린 책이 없어요...</h2>
+    <form action="{{ url_for('main.home')}}">
+        <input class="book-list-title btn btn-warning" type="submit" value="책 대여하러 가기">
+    </form>
+    {% endif %}
+{% endblock %}
