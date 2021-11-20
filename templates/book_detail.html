@@ -24,11 +24,14 @@
     </section>
 
     <section class="review-box">
-        <h3 style="font-family: 'EliceDigitalBaeum_Bold';">Review (평점 : {{ avg }}) </h3>
-        <p></p>
         {% if not reviews %}
+            <h1 style="font-family: 'EliceDigitalBaeum_Bold';">Review</h1>
             <div> 아직 리뷰가 없습니다. </div>
-        {% endif %}
+        
+        {% else %}
+        <h1 style="font-family: 'EliceDigitalBaeum_Bold';">Review <span style="font-size:21px;">(평점 : {{ avg }} ({{ reviews|length }}명 참여))</span> </h1>
+        <p></p>
+        
         {% for review in reviews%}
                 <div style="border: 1px solid; padding: 0.7em; margin: 0.5em">
                     <span>작성자 : {{ review.user_id }}</span><br>
@@ -40,7 +43,7 @@
                     
                 </div>
         {% endfor %}
-
+        {% endif %}
         {% if session['id'] %}
             
             <form action="{{ url_for('book_detail.write_review', book_id=book.id) }}" name="myform" id="myform" method="post">
