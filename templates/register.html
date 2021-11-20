@@ -1,46 +1,61 @@
 {% extends "base.html" %}
 {% block title %}엘리스 도서관 회원가입{% endblock %}
 {% block page_content %}
-<form action="{{ url_for('main.register') }}" method="post">
-  <div class="form-group">
-    <label for="name">이름</label>
-    <input
-      class="form-control"
-      type="text"
-      name="name"
-      id="name"
-      placeholder="이름 입력"
-    />
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-3">
+        <img src="{{url_for('static', filename='image/rabbit.png')}}" class="img-fluid"
+          alt="Sample image">
+      </div>
+      <div class="col-md-auto col-lg-auto col-xl-6 offset-xl-1">
+        <form action="{{ url_for('main.register') }}" method="post">
+        <h2 class="LoginTitle">엘리스 도서관 회원가입</h2>
+          <div class="form-outline mb-3">
+            <label for="name">이름</label>
+            <input
+              class="form-control"
+              type="text"
+              name="name"
+              id="name"
+              placeholder="이름 입력"
+            />
+          </div>
+          <div class="form-outline mb-3">
+            <label for="email">이메일</label>
+            <input
+              class="form-control"
+              type="text"
+              name="email"
+              id="email"
+              placeholder="이메일 입력"
+            />
+          </div>
+          <div class="form-outline mb-3">
+            <label for="password">비밀번호</label>
+            <input
+              class="form-control"
+              name="password"
+              type="password"
+              placeholder="비밀번호 입력"
+            />
+          </div>
+          <div class="form-outline mb-3 mt-auto">
+            <label for="password">비밀번호 확인</label>
+            <input
+              class="form-control"
+              name="check_password"
+              type="password"
+              placeholder="비밀번호 확인"
+            />
+          </div>
+          <div class="text-center text-lg-start mt-4 pt-2">
+            <button type="submit" class="btn btn-primary btn-lg"
+              style="padding-left: 2.5rem; padding-right: 2.5rem;width:15em;">회원가입</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="email">이메일</label>
-    <input
-      class="form-control"
-      type="text"
-      name="email"
-      id="email"
-      placeholder="이메일 입력"
-    />
-  </div>
-  <div class="form-group">
-    <label for="password">비밀번호</label>
-    <input
-      class="form-control"
-      name="password"
-      type="password"
-      placeholder="비밀번호 입력"
-    />
-  </div>
-  <div class="form-group">
-    <label for="password">비밀번호 확인</label>
-    <input
-      class="form-control"
-      name="check_password"
-      type="password"
-      placeholder="비밀번호 확인"
-    />
-  </div>
-  <p></p>
-  <input class="btn btn-primary" type="submit" value="회원가입!" />
-</form>
+</section>
 {% endblock %}

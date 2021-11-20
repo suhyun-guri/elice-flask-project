@@ -12,9 +12,9 @@
                 {% for rental in myrental%}
                     {% for book in book_list %}
                         {% if rental.book_id == book.id %}
-                        <div class="col-lg-4 mb-3 d-flex align-items-stretch" >
+                        <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
                             <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
-                                <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" height="115" width="100" alt="Book Image">
+                                <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: 40%; height: auto;" alt="Book Image">
                             <div class="card-body  d-flex flex-column">
                                 <h5 class="card-title mb-auto">{{ book.book_name }}</h5><br>
                                 <div style="margin-bottom:20px;" class="card-text mt-auto"> 

@@ -26,11 +26,16 @@ def write_review(book_id):
     book_info = Book_info.query.filter(Book_info.id == book_id).first()
     review_info = Review.query.filter(Review.book_id == book_id).all()
     temp = book_info.rating * len(review_info)
+    user_id = session['id']
+    
+    check_myreview = Review.query.filter(Review.book_id == book_id, Review.user_id == user_id).first()
+    if check_myreview:
+        flash("이미 작성한 리뷰가 있습니다.")
+        return redirect(url_for('book_detail.book_detail', book_id=book_id))
     
     if 'rating' in request.form:        
         rating = request.form['rating']
         content = request.form['review']
-        user_id = session['id']
         user_name = session['name']
         
         review = Review(book_id, user_id, user_name, rating, content)

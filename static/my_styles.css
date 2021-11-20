@@ -20,7 +20,7 @@ a {
   
 .card-body {
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     row-gap: 10px;
     column-gap: 20px;
     margin: -1px 0 0 -1px;
@@ -122,4 +122,22 @@ a.stretched-link:before {
     /* required */
     position: relative;
     z-index: 1;
+}
+
+/* login page */
+
+.h-custom {
+  height: calc(100% - 73px);
+}
+@media (max-width: 450px) {
+  .h-custom {
+    height: 100%;
+  }
+}
+.LoginTitle{
+    font-family: 'EliceDigitalBaeum_Bold';
+    margin-bottom:40px;
+}
+.goregister{
+    cursor: pointer;
 }

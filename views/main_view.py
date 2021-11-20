@@ -11,7 +11,7 @@ def home():
     list = Book_info.query.order_by('id')
     page = request.args.get('page', type=int, default=1) #페이지
     book_list = Book_info.query.order_by('id')
-    book_list = book_list.paginate(page, per_page=9)
+    book_list = book_list.paginate(page, per_page=8)
     return render_template('main.html', book_list = book_list)
 
 @bp.route('/register', methods = ['GET', 'POST'])
