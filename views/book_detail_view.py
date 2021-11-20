@@ -5,10 +5,14 @@ bp = Blueprint('book_detail', __name__, url_prefix='/detail')
 
 @bp.route('/<int:book_id>')
 def book_detail(book_id):
-    book = book_info.query.filter(book_info.id == book_id).first()
-    review = Review.query.filter(Review.book_id == book_id).all()
+    book_info = Book_info.query.filter(Book_info.id == book_id).first()
+    review_info = Review.query.filter(Review.book_id == book_id).all()
     
-    return render_template('book_detail.html', book=book, reviews=review)
+    if not book_info:
+        flash("잘못된 접근입니다.")
+        return redirect(url_for("main.home"))
+    
+    return render_template('book_detail.html', book=book_info, reviews=review_info)
 
 @bp.route('/write_review/<int:book_id>', methods=['POST'])
 def write_review(book_id):

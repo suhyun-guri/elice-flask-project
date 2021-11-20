@@ -1,6 +1,6 @@
 from app import db
 
-class book_info(db.Model):
+class Book_info(db.Model):
     __tablename__ = 'book_info'
     id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     book_name = db.Column(db.String(255), nullable=False)

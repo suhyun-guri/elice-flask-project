@@ -8,7 +8,7 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/')
 def home():
-    list = book_info.query.order_by('id')
+    list = Book_info.query.order_by('id')
     return render_template('main.html', book_list=list)
 
 @bp.route('/register', methods = ['GET', 'POST'])
@@ -60,7 +60,7 @@ def logout():
 @bp.route('/rental/<int:book_id>')
 def rental(book_id):
     user_id = session['id']
-    target_book = book_info.query.filter(book_info.id == book_id).first()
+    target_book = Book_info.query.filter(Book_info.id == book_id).first()
     rental_check = Rental_return.query.filter(Rental_return.book_id==book_id, Rental_return.user_id == user_id).first()
     if target_book.count >= 1:
         if rental_check:
@@ -86,7 +86,7 @@ def rental(book_id):
 def return_page():
     user_id = session['id']
     myrental = Rental_return.query.filter(Rental_return.user_id == user_id,Rental_return.status == True ).all()
-    book_list = book_info.query.all()
+    book_list = Book_info.query.all()
     return render_template('return_page.html', myrental = myrental, book_list = book_list)
 
 @bp.route('/return/<int:book_id>')
@@ -95,7 +95,7 @@ def return_book(book_id):
     myrental = Rental_return.query.filter(Rental_return.user_id == user_id,Rental_return.status == True, Rental_return.book_id == book_id).first()
     myrental.status = False
     
-    book = book_info.query.filter(book_info.id == myrental.book_id).first()
+    book = Book_info.query.filter(Book_info.id == myrental.book_id).first()
     book.count += 1
     db.session.commit()
     flash(f"{book.book_name}이 반납완료되었습니다.")
