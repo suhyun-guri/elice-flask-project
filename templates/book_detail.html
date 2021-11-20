@@ -40,7 +40,9 @@
                     {% endfor %}
                     <br>
                     <span> {{review.content}} </span>
-                    
+                    {% if review.user_id == session['id'] %}
+                        <a class="btn btn-danger btn-sm" style="float: right; width:70px;" href="{{ url_for('book_detail.delete_review', book_id = book.id, review_id=review.id) }}">삭제</a>
+                    {% endif %}
                 </div>
         {% endfor %}
         {% endif %}
@@ -59,7 +61,7 @@
                     <input class="form-control" name="review" id="review" placeholder="리뷰를 작성해주세요."></input>
                 </div>
                 <p></p>
-                <input class="btn btn-danger" type="submit" value="리뷰 올리기">
+                <input class="btn btn-outline-danger" type="submit" value="리뷰 올리기">
             </form> 
         {% endif %}
     </section>

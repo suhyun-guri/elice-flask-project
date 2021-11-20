@@ -23,10 +23,10 @@
                                 <div style="padding:15px;">
                                     {{ book.book_name }}<br>
                                     {{ book.count }} 권 남음<br>
-                                    {% for i in range(book.rating) %}
+                                    {% for i in range(book.rating|round|int) %}
                                         <span class="star">⭐</span>
                                     {% endfor %}
-                                    {% for i in range(5 - book.rating) %}
+                                    {% for i in range(5 - (book.rating|round|int)) %}
                                         <span class="notstar">⭐</span>
                                     {% endfor %}
                                     <form action="{{ url_for('main.rental', book_id=book.id)}}">
