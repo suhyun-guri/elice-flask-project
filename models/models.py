@@ -1,4 +1,5 @@
 from app import db
+from datetime import datetime
 
 class Book_info(db.Model):
     __tablename__ = 'book_info'
@@ -53,9 +54,12 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     star = db.Column(db.Integer)
     content = db.Column(db.Text)
+    created_date = db.Column(db.Date, default=datetime.now())
+    user_name = db.Column(db.String(255))
     
-    def __init__(self, book_id, user_id, star, content):
+    def __init__(self, book_id, user_id, user_name, star, content):
         self.book_id = book_id
         self.user_id = user_id
+        self.user_name = user_name
         self.star = star
         self.content = content

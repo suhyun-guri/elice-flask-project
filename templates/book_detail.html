@@ -34,7 +34,8 @@
         
         {% for review in reviews%}
                 <div style="border: 1px solid; padding: 0.7em; margin: 0.5em">
-                    <span>작성자 : {{ review.user_id }}</span><br>
+                    <span>작성자 : {{ review.user_name }}</span>
+                    <span style="float: right;">{{ review.created_date }}</span><br>
                     {% for i in range(review.star) %}
                         <span class="star">⭐</span>
                     {% endfor %}

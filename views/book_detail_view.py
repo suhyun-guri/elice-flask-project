@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash, jsonify
 from models.models import *
+from datetime import timedelta, datetime
+
 
 bp = Blueprint('book_detail', __name__, url_prefix='/detail')
 
@@ -25,18 +27,23 @@ def write_review(book_id):
     review_info = Review.query.filter(Review.book_id == book_id).all()
     temp = book_info.rating * len(review_info)
     
-    rating = request.form['rating']
-    content = request.form['review']
-    user_id = session['id']
-    
-    review = Review(book_id, user_id, rating, content)
-    db.session.add(review)
-    
-    newrating = round((temp + int(rating)) / (len(review_info) + 1), 2)
-    book_info.rating = newrating
-    db.session.commit() 
-    flash("리뷰 업로드 완료")
-    return redirect(url_for('book_detail.book_detail', book_id=book_id))
+    if 'rating' in request.form:        
+        rating = request.form['rating']
+        content = request.form['review']
+        user_id = session['id']
+        user_name = session['name']
+        
+        review = Review(book_id, user_id, user_name, rating, content)
+        db.session.add(review)
+        
+        newrating = round((temp + int(rating)) / (len(review_info) + 1), 2)
+        book_info.rating = newrating
+        db.session.commit() 
+        flash("리뷰 업로드 완료")
+        return redirect(url_for('book_detail.book_detail', book_id=book_id))
+    else:
+        flash("별점을 주세요!")
+        return redirect(url_for('book_detail.book_detail', book_id=book_id))
 
 @bp.route('/delete_review/<int:review_id>')
 def delete_review(review_id):
