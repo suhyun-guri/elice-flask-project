@@ -18,9 +18,11 @@ a {
     font-style: normal;
 }
   
-.booklist {
+.card-body {
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 20px;
     margin: -1px 0 0 -1px;
     padding: -1px -1px -1px -1px;
     text-align: center;
@@ -34,10 +36,20 @@ a {
     font-family: 'NanumSquareRound';
     font-size:18px;
 }
+.main-content{
+    font-family: 'NanumSquareRound';
+    font-size:15px;
+}
 .book-list-title {
     font-family: 'EliceDigitalBaeum_Bold';
     margin-left:100px;
     margin-top:35px;
+}
+.description{
+    font-family: 'EliceDigitalBaeum_Bold';
+    margin-left:100px;
+    margin-top:35px;
+    font-size:20px;
 }
 
 .review-box {
@@ -78,17 +90,36 @@ a {
 
 /* 이미 있는 리뷰에 별점 구현 */
 .star{
-    font-size: 1em; /* 이모지 크기 */
+    font-size: 1.1em; /* 이모지 크기 */
     color: transparent; /* 기존 이모지 컬러 제거 */
     text-shadow: 0 0 0 #a00; /* 새 이모지 색상 부여 */
 }
 .notstar{
-    font-size: 1em; /* 이모지 크기 */
+    font-size: 1.1em; /* 이모지 크기 */
     color: transparent; /* 기존 이모지 컬러 제거 */
     text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
 }
-.book-title{
+.card-title{
     font-family: 'EliceDigitalBaeum_Bold';
     font-size:18px;
     margin:10px;
+}
+
+.card {
+    position: relative;
+  }
+  
+a.stretched-link:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.second {
+    /* required */
+    position: relative;
+    z-index: 1;
 }

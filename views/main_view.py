@@ -64,12 +64,11 @@ def logout():
 def rental(book_id):
     user_id = session['id']
     target_book = Book_info.query.filter(Book_info.id == book_id).first()
-    rental_check = Rental_return.query.filter(Rental_return.book_id==book_id, Rental_return.user_id == user_id).first()
+    rental_check = Rental_return.query.filter(Rental_return.book_id==book_id, Rental_return.user_id == user_id, Rental_return.status==True).first()
     if target_book.count >= 1:
         if rental_check:
-            if rental_check.status==True:
-                flash("이미 빌린 책입니다.")
-                return redirect(url_for("main.home"))
+            flash("이미 빌린 책입니다.")
+            return redirect(url_for("main.home"))
         nowDate = datetime.now()
         duration = timedelta(weeks=2)
         endDate = datetime.now() + duration

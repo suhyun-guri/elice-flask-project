@@ -6,45 +6,42 @@
     {% if book_list %}
     <h2 class="book-list-title"> 📖 책 목록 📖</h2><br>
     {% if session['id'] %}
-        <span class="book-list-title"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span><br>
-        <span class="book-list-title"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
+        <span class="description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
+        <br><span class="description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
+        
     {% else %}
-        <span class="book-list-title"> <span style='color:blue;'>로그인</span>하고 책을 대여해보세요.</span>
+        <span class="description"> <a href="{{ url_for('main.login')}}" style='color:blue;cursor:pointer'>로그인</a>하고 책을 대여해보세요.</span>
     {% endif %}
-    <div class="container px-4 px-lg-5 mt-5">
-        <div class="row">
-            <div class="col-12">
-                <ul class="booklist">
-                    {% for book in book_list.items %}
-                        <a href="/detail/{{ book.id }}">
-                            <li class="list-group-item list-group-item-action">
-                                <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
-                                <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
-                                <div style="padding:15px;">
-                                    <div class="book-title">{{ book.book_name }}</div>
-                                    {{ book.count }} 권 남음<br>
-                                    {% for i in range(book.rating|round|int) %}
-                                        <span class="star">⭐</span>
-                                    {% endfor %}
-                                    {% for i in range(5 - (book.rating|round|int)) %}
-                                        <span class="notstar">⭐</span>
-                                    {% endfor %}
-                                    <form action="{{ url_for('main.rental', book_id=book.id)}}">
-                                        {% if session['id'] %}
-                                            <input style="margin-top:17px; width:180px;" class="btn btn-primary" type="submit" value="대여하기">
-                                        {% endif %}
-                                    </form>
-                                </div>
-                            </li>
-                        </a>
-                    {% endfor %}
-                </ul>                
+<section style="margin:25px 60px 0 60px;">
+  <div class="container">
+    <div class="row">
+      <!--ADD CLASSES HERE d-flex align-items-stretch-->
+      {% for book in book_list.items %}
+      <div class="col-lg-4 mb-3 d-flex align-items-stretch" >
+        <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
+            <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: 40%; height: auto;" alt="Book Image">
+          <div class="card-body  d-flex flex-column">
+            <div class="card-title mb-auto">{{ book.book_name }}</div>
+            <div style="margin-bottom:10px;" class="card-text mt-auto main-content"> 
+                {{ book.count }} 권 남음<p></p>
+                {% for i in range(book.rating|round|int) %}
+                    <span class="star">⭐</span>
+                {% endfor %}
+                {% for i in range(5 - (book.rating|round|int)) %}
+                    <span class="notstar">⭐</span>
+                {% endfor %}
             </div>
+            <a href="/detail/{{ book.id }}" class="stretched-link"></a>
+            <a href="{{ url_for('main.rental', book_id=book.id)}}" class="btn btn-primary mt-auto align-self-center second" style="width:180px;">대여하기</a>
+          </div>
         </div>
+      </div>
+      {% endfor %}
+      <!--ADD CLASSES HERE d-flex align-items-stretch-->
     </div>
-    {% else %}
-    <p>책이 없어요...</p>
-    {% endif %}
+  </div>
+</section>
+{% endif %}
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center" style="margin-top:20px;">
         <!-- 이전페이지 -->

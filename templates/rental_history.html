@@ -5,41 +5,44 @@
 
 <h2 class="book-list-title"> 📖 나의 HISTORY 📖</h2><br>
 {% if myrental %}
-    <div class="container px-4 px-lg-5 mt-5">
+    <span class="description">{{session['name']}}님의 대여기록입니다.</span>
+    <section style="margin:25px 60px 0 60px;">
+    <div class="container">
         <div class="row">
-            <div class="col-12">
-                <ul class="booklist">
-                    {% for rental in myrental%}
-                        {% for book in book_list %}
-                            {% if rental.book_id == book.id %}
-                                <a href="/detail/{{ book.id }}">
-                                    <li class="list-group-item list-group-item-action">
-                                        <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
-                                        <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
-
-                                        <div>
-                                            <div class="book-title">{{ book.book_name }}</div>
-                                            {% for i in range(book.rating|round|int) %}
-                                                <span class="star">⭐</span>
-                                            {% endfor %}
-                                            {% for i in range(5 - (book.rating|round|int)) %}
-                                                <span class="notstar">⭐</span>
-                                            {% endfor %}
-                                            {% if rental.status == False %}
-                                            <p>{{ rental.rental_date }} ~ {{ rental.return_date }}</p>
-                                            {% else %}
-                                            <p>{{ rental.rental_date }} ~ 대여중 <br> (반납 기한 : {{ rental.return_date }})</p>
-                                            {% endif %}
-                                        </div>
-                                    </li>
-                                </a>
+        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+        {% for rental in myrental%}
+            {% for book in book_list %}
+                {% if rental.book_id == book.id %}
+                <div class="col-lg-4 mb-3 d-flex align-items-stretch" >
+                    <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
+                        <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" height="115" width="100" alt="Book Image">
+                    <div class="card-body  d-flex flex-column">
+                        <h5 class="card-title mb-auto">{{ book.book_name }}</h5><br>
+                        <div style="margin-bottom:20px;" class="card-text mt-auto"> 
+                            {% if rental.status == False %}
+                            <p>{{ rental.rental_date }} ~ {{ rental.return_date }}</p>
+                            {% else %}
+                            <p>{{ rental.rental_date }} ~ 대여중 <br> (반납 기한 : {{ rental.return_date }})</p>
                             {% endif %}
-                        {% endfor %}
-                    {% endfor %}
-                </ul>                
-            </div>
+
+                            {% for i in range(book.rating|round|int) %}
+                                <span class="star">⭐</span>
+                            {% endfor %}
+                            {% for i in range(5 - (book.rating|round|int)) %}
+                                <span class="notstar">⭐</span>
+                            {% endfor %}
+                            <a href="/detail/{{ book.id }}" class="stretched-link"></a>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        <!--ADD CLASSES HERE d-flex align-items-stretch-->
         </div>
     </div>
+    </section>
     {% else %}
     <h2 class="book-list-title"> 대여기록이 없어요...</h2>
     <form action="{{ url_for('main.home')}}">
