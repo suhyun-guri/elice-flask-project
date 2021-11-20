@@ -10,8 +10,9 @@ class Book_info(db.Model):
     pages = db.Column(db.Integer)
     isbn = db.Column(db.Integer)
     description = db.Column(db.Text)
-    link = db.Column(db.String(1000)),
+    link = db.Column(db.String(1000))
     count = db.Column(db.Integer)
+    rating = db.Column(db.Integer)
     
     bookid1 = db.relationship("Rental_return", backref="book_info")
     bookid2 = db.relationship("Review", backref="book_info")

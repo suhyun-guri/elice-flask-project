@@ -20,14 +20,21 @@
                             <li class="list-group-item list-group-item-action">
                                 <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
                                 <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
-                                <p>{{ book.book_name }}</p>
-                                <p>{{ book.count }} 권 남음</p>
-                                <p> ⭐⭐⭐⭐⭐ </p>
-                                <form action="{{ url_for('main.rental', book_id=book.id)}}">
-                                    {% if session['id'] %}
-                                        <input class="btn btn-primary" type="submit" value="대여하기">
-                                    {% endif %}
-                                </form>
+                                <div style="padding:15px;">
+                                    {{ book.book_name }}<br>
+                                    {{ book.count }} 권 남음<br>
+                                    {% for i in range(book.rating) %}
+                                        <span class="star">⭐</span>
+                                    {% endfor %}
+                                    {% for i in range(5 - book.rating) %}
+                                        <span class="notstar">⭐</span>
+                                    {% endfor %}
+                                    <form action="{{ url_for('main.rental', book_id=book.id)}}">
+                                        {% if session['id'] %}
+                                            <input style="margin-top:17px; width:180px;" class="btn btn-primary" type="submit" value="대여하기">
+                                        {% endif %}
+                                    </form>
+                                </div>
                             </li>
                         </a>
                     {% endfor %}
