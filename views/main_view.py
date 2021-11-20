@@ -9,7 +9,10 @@ bp = Blueprint('main', __name__, url_prefix='/')
 @bp.route('/')
 def home():
     list = Book_info.query.order_by('id')
-    return render_template('main.html', book_list=list)
+    page = request.args.get('page', type=int, default=1) #페이지
+    book_list = Book_info.query.order_by('id')
+    book_list = book_list.paginate(page, per_page=9)
+    return render_template('main.html', book_list = book_list)
 
 @bp.route('/register', methods = ['GET', 'POST'])
 def register():
@@ -108,3 +111,10 @@ def rental_history():
     myrental = Rental_return.query.filter(Rental_return.user_id == user_id).all()
     book_list = Book_info.query.all()
     return render_template('rental_history.html', myrental = myrental, book_list = book_list)
+
+@bp.route('/list')
+def _list():
+    page = request.args.get('page', type=int, default=1) #페이지
+    book_list = Book_info.query.order_by('id')
+    book_list = book_list.paginate(page, per_page=9)
+    return render_template('page_test.html', book_list = book_list)

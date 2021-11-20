@@ -21,13 +21,13 @@
                                 <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
                                 <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
                                 <div style="padding:15px;">
-                                    <div class="book-title">{{ book.book_name }}</div>
+                                    <div class="book-title" style="text-decoration:none">{{ book.book_name }}</div>
                                     {{ book.count }} 권 남음<br>
                                     {% for i in range(book.rating|round|int) %}
-                                        <span class="star">⭐</span>
+                                        <span class="star style="text-decoration:none"">⭐</span>
                                     {% endfor %}
                                     {% for i in range(5 - (book.rating|round|int)) %}
-                                        <span class="notstar">⭐</span>
+                                        <span class="notstar style="text-decoration:none"">⭐</span>
                                     {% endfor %}
                                     <form action="{{ url_for('main.rental', book_id=book.id)}}">
                                         {% if session['id'] %}
@@ -46,15 +46,15 @@
     <p>책이 없어요...</p>
     {% endif %}
     <!-- 페이징처리 시작 -->
-    <ul class="pagination justify-content-center" style="margin-top:20px;">
+    <ul class="pagination justify-content-center">
         <!-- 이전페이지 -->
         {% if book_list.has_prev %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ book_list.prev_num }}">&laquo</a>
+            <a class="page-link" href="?page={{ book_list.prev_num }}">이전</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&laquo</a>
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">이전</a>
         </li>
         {% endif %}
         {% for page_num in book_list.iter_pages() %}
@@ -77,11 +77,11 @@
         <!-- 다음페이지 -->
         {% if book_list.has_next %}
         <li class="page-item">
-            <a class="page-link" href="?page={{ book_list.next_num }}">&raquo;</a>
+            <a class="page-link" href="?page={{ book_list.next_num }}">다음</a>
         </li>
         {% else %}
         <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&raquo;</a>
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">다음</a>
         </li>
         {% endif %}
     </ul>
