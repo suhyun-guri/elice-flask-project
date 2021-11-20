@@ -94,9 +94,17 @@ def return_book(book_id):
     user_id = session['id']
     myrental = Rental_return.query.filter(Rental_return.user_id == user_id,Rental_return.status == True, Rental_return.book_id == book_id).first()
     myrental.status = False
+    myrental.return_date = datetime.now()
     
     book = Book_info.query.filter(Book_info.id == myrental.book_id).first()
     book.count += 1
     db.session.commit()
     flash(f"{book.book_name}이 반납완료되었습니다.")
     return redirect(url_for('main.return_page'))
+
+@bp.route('/rental_history')
+def rental_history():
+    user_id = session['id']
+    myrental = Rental_return.query.filter(Rental_return.user_id == user_id).all()
+    book_list = Book_info.query.all()
+    return render_template('rental_history.html', myrental = myrental, book_list = book_list)

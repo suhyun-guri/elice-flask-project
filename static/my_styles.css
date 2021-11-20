@@ -87,3 +87,8 @@ a {
     color: transparent; /* 기존 이모지 컬러 제거 */
     text-shadow: 0 0 0 #f0f0f0; /* 새 이모지 색상 부여 */
 }
+.book-title{
+    font-family: 'EliceDigitalBaeum_Bold';
+    font-size:18px;
+    margin:10px;
+}

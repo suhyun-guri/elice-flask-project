@@ -66,7 +66,7 @@ def delete_review(review_id):
     if review_info:
         for review in review_info:
             rating_sum += review.star
-        average = round((rating_sum / len(review_info)), 2)
+        average = round((rating_sum / len(review_info)), 1)
     book_info.rating = average
     
     db.session.commit()

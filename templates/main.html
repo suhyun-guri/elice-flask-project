@@ -21,7 +21,7 @@
                                 <img src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}"  height="115" width="100">
                                 <img src = "{{ url_for('static', filename='image/{}.png'.format(book.id)) }}"  height="115" width="100">
                                 <div style="padding:15px;">
-                                    {{ book.book_name }}<br>
+                                    <div class="book-title">{{ book.book_name }}</div>
                                     {{ book.count }} 권 남음<br>
                                     {% for i in range(book.rating|round|int) %}
                                         <span class="star">⭐</span>
