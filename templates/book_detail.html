@@ -5,8 +5,8 @@
         <div class="container px-4 px-lg-5 my-5">
             {% if book %}
                 <div class="row gx-4 gx-lg-5 align-items-center">
-                    <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
-                    <div class="book-detail-page col-md-6">
+                    <div class="col-md-5"><img class="card-img-top mb-5 mb-md-0" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" alt="Book_image"/></div>
+                    <div class="book-detail-page col-md-7">
                         <p class="display-5 fw-bolder">{{ book.book_name }}</p>
                         <p> 출판사 : {{ book.publisher }}</p>
                         <p> 저자 : {{ book.author }}</p>
@@ -15,7 +15,9 @@
                         <p> ISBN 코드 : {{ book.isbn }}</p>
                         <div>
                             <p> 책 소개 </p>
-                            <p> {{ book.description }} </p>
+                            {% for content in book.description.split('\n') %}
+                            <p> {{ content }} </p>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

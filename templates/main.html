@@ -19,8 +19,7 @@
       {% for book in book_list.items %}
       <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
         <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
-            <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
-            <img class="align-self-center" src = "{{ url_for('static', filename='image/이미지준비중.png') }}" style="max-width: auto; max-height: 150px;" alt="준비중">
+            <img class="align-self-center" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
           <div class="card-body  d-flex flex-column">
             <div class="card-title mb-auto">{{ book.book_name }}</div>
             <div style="margin-bottom:10px;" class="card-text mt-auto main-content"> 
