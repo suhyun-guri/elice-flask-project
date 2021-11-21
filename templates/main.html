@@ -8,7 +8,7 @@
     {% if session['id'] %}
         <span class="description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
         <br><span class="description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
-        
+        <br><span class="description"> <span style='color:#ff7d03'>가능한 대여권수</span>는 5권입니다.</span>
     {% else %}
         <span class="description"> <a href="{{ url_for('main.login')}}" style='color:blue;cursor:pointer'>로그인</a>하고 책을 대여해보세요.</span>
     {% endif %}
@@ -19,7 +19,8 @@
       {% for book in book_list.items %}
       <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
         <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
-            <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: 40%; height: auto;" alt="Book Image">
+            <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
+            <img class="align-self-center" src = "{{ url_for('static', filename='image/이미지준비중.png') }}" style="max-width: auto; max-height: 150px;" alt="준비중">
           <div class="card-body  d-flex flex-column">
             <div class="card-title mb-auto">{{ book.book_name }}</div>
             <div style="margin-bottom:10px;" class="card-text mt-auto main-content"> 
@@ -32,7 +33,9 @@
                 {% endfor %}
             </div>
             <a href="/detail/{{ book.id }}" class="stretched-link"></a>
+            {% if session['id'] %}
             <a href="{{ url_for('main.rental', book_id=book.id)}}" class="btn btn-primary mt-auto align-self-center second" style="width:180px;">대여하기</a>
+            {% endif %}
           </div>
         </div>
       </div>

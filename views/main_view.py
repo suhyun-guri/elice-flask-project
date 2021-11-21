@@ -65,9 +65,13 @@ def rental(book_id):
     user_id = session['id']
     target_book = Book_info.query.filter(Book_info.id == book_id).first()
     rental_check = Rental_return.query.filter(Rental_return.book_id==book_id, Rental_return.user_id == user_id, Rental_return.status==True).first()
+    rental_cnt_check = Rental_return.query.filter(Rental_return.user_id == user_id, Rental_return.status==True).all()
     if target_book.count >= 1:
         if rental_check:
             flash("이미 빌린 책입니다.")
+            return redirect(url_for("main.home"))
+        if len(rental_cnt_check) >= 5:
+            flash("현재 대여중인 책 5권이 존재합니다. 대여는 5권까지 가능합니다.")
             return redirect(url_for("main.home"))
         nowDate = datetime.now()
         duration = timedelta(weeks=2)
@@ -109,7 +113,8 @@ def rental_history():
     user_id = session['id']
     myrental = Rental_return.query.filter(Rental_return.user_id == user_id).all()
     book_list = Book_info.query.all()
-    return render_template('rental_history.html', myrental = myrental, book_list = book_list)
+    myreview = Review.query.filter(Review.user_id == user_id).all()
+    return render_template('rental_history.html', myrental = myrental, book_list = book_list, myreview=myreview)
 
 @bp.route('/rental_history/<int:rental_id>')
 def delete_history(rental_id):

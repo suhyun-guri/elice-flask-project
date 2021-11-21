@@ -5,7 +5,8 @@
 
 <h2 class="book-list-title"> 📖 나의 HISTORY 📖</h2><br>
 {% if myrental %}
-    <span class="description">{{session['name']}}님의 대여기록입니다.</span>
+    <span class="description">{{session['name']}}님의 대여기록입니다.</span><br>
+     <span class="description"><span style="color:#a00">내가 준 별점</span>이 표시됩니다.</span>
     <section style="margin:25px 60px 0 60px;">
     <div class="container">
         <div class="row">
@@ -15,20 +16,25 @@
                 {% if rental.book_id == book.id %}
                 <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
                     <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
-                        <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: 40%; height: auto;" alt="Book Image">
+                        <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
                     <div class="card-body  d-flex flex-column">
-                        <h5 class="card-title mb-auto">{{ book.book_name }}</h5><br>
+                        <h5 class="card-title mb-auto">{{ book.book_name }}</h5>
                         <div style="margin-bottom:10px;" class="card-text mt-auto main-content"> 
                             {% if rental.status == False %}
                             {{ rental.rental_date }} ~ {{ rental.return_date }}<p></p>
                             {% else %}
                             {{ rental.rental_date }} ~ 대여중 <br> (반납 기한 : {{ rental.return_date }})<p></p>
                             {% endif %}
-                            {% for i in range(book.rating|round|int) %}
-                                <span class="star">⭐</span>
-                            {% endfor %}
-                            {% for i in range(5 - (book.rating|round|int)) %}
-                                <span class="notstar">⭐</span>
+                            {% for review in myreview %}
+                                {% if review.book_id == book.id %}
+                                    나의 별점<br>
+                                    {% for i in range(review.star|round|int) %}
+                                        <span class="star">⭐</span>
+                                    {% endfor %}
+                                    {% for i in range(5 - (review.star|round|int)) %}
+                                        <span class="notstar">⭐</span>
+                                    {% endfor %}
+                                {% endif %}
                             {% endfor %}
                         </div>
                             <a href="/detail/{{ book.id }}" class="stretched-link"></a>
