@@ -4,7 +4,7 @@
 
     <h2 class="book-list-title"> 📖 대여 책 목록 📖</h2><br>
     {% if myrental %}
-        <span class="description"> <span style='color:blue'>반납하기</span>를 눌러 책을 반납하세요.</span>
+        <span class="main-description"> <span style='color:blue'>반납하기</span>를 눌러 책을 반납하세요.</span>
             <section style="margin:25px 60px 0 60px;">
             <div class="container">
                 <div class="row">
@@ -14,7 +14,7 @@
                         {% if rental.book_id == book.id %}
                         <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
                             <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
-                                <img class="align-self-center" src = "{{ url_for('static', filename='image/{}.jpg'.format(book.id)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
+                               <img class="align-self-center" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
                             <div class="card-body  d-flex flex-column">
                                 <h5 class="card-title mb-auto">{{ book.book_name }}</h5>
                                 <div style="margin-bottom:20px;" class="card-text mt-auto"> 

@@ -9,6 +9,7 @@
         <img src="{{url_for('static', filename='image/오토바이-3.png')}}" class="img-fluid"
           alt="Sample image">
       </div>
+      {% if not session['id'] %}
       <div class="col-md-auto col-lg-auto col-xl-6 offset-xl-1">
         <form action="{{ url_for('main.login') }}" method="post">
           <!-- Email input -->
@@ -36,6 +37,9 @@
 
         </form>
       </div>
+      {% else %}
+        <h2 class="LoginTitle text-center">{{ session['name'] }}님! 이미 로그인 하셨습니다.</h2>
+      {% endif %}
     </div>
   </div>
 </section>

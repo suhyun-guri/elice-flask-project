@@ -22,8 +22,12 @@
             <img class="align-self-center" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
           <div class="card-body  d-flex flex-column">
             <div class="card-title mb-auto">{{ book.book_name }}</div>
-            <div style="margin-bottom:10px;" class="card-text mt-auto main-content"> 
-                {{ book.count }} 권 남음<p></p>
+            <div style="margin-bottom:10px;" class="card-text mt-auto main-content">
+                {% if book.count <= 1 %} 
+                    <span style="color:red">{{ book.count }} 권 남음</span><p></p>
+                {% else %}
+                    {{ book.count }} 권 남음<p></p>
+                {% endif %}
                 {% for i in range(book.rating|round|int) %}
                     <span class="star">⭐</span>
                 {% endfor %}
