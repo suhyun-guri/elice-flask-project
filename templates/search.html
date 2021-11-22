@@ -5,8 +5,8 @@
 {% block title %}엘리스 도서관{% endblock %}
 
 {% block page_content %}    
+    <h2 class="book-list-title"> 🔎 "{{ keyword }}" 관련 책 목록 🔎 <span style="font-family: 'EliceDigitalBaeum_Bold'; font-size:30px;">( 총 {{ count }}건 )</span></h2><br>
     {% if book_list %}
-    <h2 class="book-list-title"> 📖 책 목록 📖</h2><br>
     {% if session['id'] %}
         <span class="main-description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
         <br><span class="main-description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
@@ -23,7 +23,7 @@
   <div class="container">
     <div class="row">
       <!--ADD CLASSES HERE d-flex align-items-stretch-->
-      {% for book in book_list.items %}
+      {% for book in book_list %}
       <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
         <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
             <img class="align-self-center" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
@@ -75,48 +75,12 @@
     </div>
   </div>
 </section>
+    {% else %}
+        <h2 class="book-list-title"> 검색 결과가 없어요...</h2>
+        <form action="{{ url_for('main.home')}}">
+            <input class="book-list-title btn btn-warning" type="submit" value="메인으로">
+        </form>
     {% endif %}
-    <!-- 페이징처리 시작 -->
-    <ul class="pagination justify-content-center" style="margin-top:20px;">
-        <!-- 이전페이지 -->
-        {% if book_list.has_prev %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ book_list.prev_num }}">&laquo</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&laquo</a>
-        </li>
-        {% endif %}
-        {% for page_num in book_list.iter_pages() %}
-            {% if page_num %}
-                {% if page_num != book_list.page %}
-                <li class="page-item">
-                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
-                </li>
-                {% else %}
-                <li class="page-item active" aria-current="page">
-                    <a class="page-link" href="#">{{ page_num }}</a>
-                </li>
-                {% endif %}
-           {% else %}
-                <li class="disabled">
-                    <a class="page-link" href="#">...</a>
-                </li>
-           {% endif %}
-        {% endfor %}
-        <!-- 다음페이지 -->
-        {% if book_list.has_next %}
-        <li class="page-item">
-            <a class="page-link" href="?page={{ book_list.next_num }}">&raquo;</a>
-        </li>
-        {% else %}
-        <li class="page-item disabled">
-            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&raquo;</a>
-        </li>
-        {% endif %}
-    </ul>
-    <!-- 페이징처리 끝 -->
-
+    
 
 {% endblock %}

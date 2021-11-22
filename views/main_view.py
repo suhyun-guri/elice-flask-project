@@ -141,3 +141,34 @@ def _list():
     book_list = Book_info.query.order_by('id')
     book_list = book_list.paginate(page, per_page=9)
     return render_template('page_test.html', book_list = book_list)
+
+# @bp.route('/search/<query>', methods=['GET','POST'])
+# def search():
+#     if request.method == 'GET':
+#         return render_template('error.html')
+#     else:
+#         keyword = request.form['keyword']
+#         page = request.args.get('page', type=int, default=1) #페이지
+#         if keyword:
+#             result = Book_info.query.order_by('id').filter(Book_info.book_name.contains(keyword)).paginate(page, 8, True)
+#         count = len(Book_info.query.order_by('id').filter(Book_info.book_name.contains(keyword)).all())
+#         return render_template('search.html', book_list = result, keyword=keyword, count=count)
+
+@bp.route('/search', methods=['GET','POST'])
+def search():
+    if request.method == 'GET':
+        return render_template('error.html')
+    else:
+        keyword = request.form['keyword']
+        if keyword:
+            result = Book_info.query.order_by('id').filter(Book_info.book_name.contains(keyword)).all()
+        else:
+            flash("검색어를 입력하세요.")
+            return redirect(url_for('main.home'))
+        count = len(result)
+    return render_template('search.html', book_list = result, keyword=keyword, count=count)
+
+@bp.errorhandler(404)
+def page_not_found(error):
+    # return render_template('404.html'), 404
+    return "에러에러"
