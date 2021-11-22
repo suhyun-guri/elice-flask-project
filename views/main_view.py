@@ -8,7 +8,6 @@ bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.route('/')
 def home():
-    list = Book_info.query.order_by('id')
     page = request.args.get('page', type=int, default=1) #페이지
     book_list = Book_info.query.order_by('id')
     book_list = book_list.paginate(page, per_page=8)

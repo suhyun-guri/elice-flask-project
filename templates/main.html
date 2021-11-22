@@ -1,3 +1,5 @@
+<script src="{{ url_for('static', filename = 'bootstrap.min.js') }}"></script>    
+
 {% extends "base.html" %}
 
 {% block title %}엘리스 도서관{% endblock %}
@@ -37,17 +39,38 @@
             </div>
             <a href="/detail/{{ book.id }}" class="stretched-link"></a>
             {% if session['id'] %}
-            <a href="{{ url_for('main.rental', book_id=book.id)}}" class="btn btn-primary mt-auto align-self-center second" style="width:180px;">대여하기</a>
+            <div class="btn btn-primary mt-auto align-self-center second" style="width:180px;" data-bs-toggle="modal" data-bs-target="#RentalModal{{book.id}}" >대여하기</div>
+            
             {% endif %}
           </div>
         </div>
       </div>
+      <!-- basic modal -->
+        <div class="modal fade" id="RentalModal{{book.id}}" tabindex="-1" role="dialog" aria-labelledby="RentalModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content rounded-6 shadow">
+                    <div class="modal-header border-bottom-0">
+                        <h4 class="modal-title" id="myModalLabel">대여하기</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span>을 대여하시겠습니까?</h5>
+                    </div>
+                    <div class="modal-footer flex-column border-top-0">
+                        <form action="{{ url_for('main.rental', book_id=book.id)}}" class="w-100">
+                            <button type="submit" class="btn btn-lg btn-outline-primary w-100 mx-0 mb-2" style="width:100px;">대여하기</button>
+                        </form>
+                        <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
       {% endfor %}
-      <!--ADD CLASSES HERE d-flex align-items-stretch-->
     </div>
   </div>
 </section>
-{% endif %}
+    {% endif %}
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center" style="margin-top:20px;">
         <!-- 이전페이지 -->

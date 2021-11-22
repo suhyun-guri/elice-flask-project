@@ -71,6 +71,13 @@ a {
     border : 1px solid #dee2e6;
     padding: 20px;
 }
+
+.modal{
+    font-family: 'NanumSquareRound';
+}
+.modal-title{
+    font-family: 'EliceDigitalBaeum_Bold';
+}
 /* 별점 등록 구현 */
 #myform fieldset{
     display: inline-block; /* 하위 별점 이미지들이 있는 영역만 자리를 차지함.*/

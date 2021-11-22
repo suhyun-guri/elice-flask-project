@@ -1,3 +1,5 @@
+<script src="{{ url_for('static', filename = 'bootstrap.min.js') }}"></script>    
+
 {% extends "base.html" %}
 
 {% block title %}대여 기록{% endblock %}
@@ -38,8 +40,30 @@
                             {% endfor %}
                         </div>
                             <a href="/detail/{{ book.id }}" class="stretched-link"></a>
-                            <a href="{{ url_for('main.delete_history', rental_id=rental.id)}}" class="btn btn-outline-danger mt-auto align-self-center second" style="width:100px;">삭제</a>
+                            <div class="btn btn-outline-danger mt-auto align-self-center second" style="width:100px;"  data-bs-toggle="modal" data-bs-target="#deleteModal{{book.id}}">삭제</div>
                     </div>
+                    </div>
+                </div>
+                <!-- basic modal -->
+                <div class="modal fade" id="deleteModal{{book.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-6 shadow">
+                            <div class="modal-header border-bottom-0">
+                                <h4 class="modal-title" id="myModalLabel">삭제하기</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span> 대여기록을 삭제하시겠습니까?</h5>
+                            </div>
+                            <div class="modal-footer flex-column border-top-0">
+                                <form action="{{ url_for('main.delete_history', rental_id=rental.id)}}" class="w-100">
+                                    <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">삭제하기</button>
+                                </form>
+                                <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                                
+                            </div>
+                        </div>
                     </div>
                 </div>
                 {% endif %}
