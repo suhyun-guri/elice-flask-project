@@ -32,10 +32,24 @@ a {
     font-family: 'EliceDigitalBaeum_Bold';
     font-size:18px;
 }
+
+/* book-detail.html */
 .book-detail-page{
     font-family: 'NanumSquareRound';
     font-size:18px;
+    background-color: rgba(234, 234, 238, 0.247);
+    border-radius:7px;
 }
+.book-detail-info{
+    font-weight: bold;
+}
+
+.book-info-box p {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d5dadb;
+}
+
 .main-content{
     font-family: 'NanumSquareRound';
     font-size:15px;
@@ -45,7 +59,7 @@ a {
     margin-left:100px;
     margin-top:35px;
 }
-.description{
+.main-description{
     font-family: 'EliceDigitalBaeum_Bold';
     margin-left:100px;
     margin-top:35px;
