@@ -18,18 +18,36 @@ def register():
     if request.method == 'GET':
         return render_template('register.html')
     elif request.method == 'POST':
-        user = User.query.filter(User.email == request.form['email']).first()
+        
+        password = request.form.get('password')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        
+        user = User.query.filter(User.email == email).first()
         if not user:
+            if not name:
+                flash("이름을 입력하세요.")
+                return render_template('register.html')
+            if not email:
+                flash("이메일을 입력하세요")
+                return render_template('register.html')
+            if not password:
+                flash("비밀번호를 입력하세요")
+                return render_template('register.html')
+            if len(password) < 8:
+                flash("비밀번호는 8자리 이상이어야 합니다.")
+                return render_template('register.html')
             if request.form['password'] != request.form['check_password']:
                 flash("비밀번호 확인이 다릅니다.")
                 return redirect(url_for('main.register'))
-            password = generate_password_hash(request.form['password'])
-            user = User(request.form['name'], request.form['email'], password)
+            
+            hash_password = generate_password_hash(password)
+            user = User(name, email, hash_password)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('main.login'))
         else:
-            flash('이미 가입된 아이디입니다.')
+            flash('이미 가입된 이메일입니다.')
             return redirect(url_for('main.register'))
 
 @bp.route('/login', methods=['GET','POST'])
