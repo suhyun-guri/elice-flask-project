@@ -6,6 +6,10 @@ from datetime import timedelta, datetime
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
+@bp.app_errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
 @bp.route('/')
 def home():
     page = request.args.get('page', type=int, default=1) #페이지
