@@ -40,7 +40,7 @@
         <p></p>
         
         {% for review in reviews%}
-                <div style="border: 1px solid; padding: 0.7em; margin: 0.5em">
+                <div style="border: 1px solid; padding: 0.9em; margin: 0.5em">
                     <span>작성자 : {{ review.user_name }}</span>
                     <span style="float: right;">{{ review.created_date }}</span><br>
                     {% for i in range(review.star) %}
@@ -66,7 +66,7 @@
                 </fieldset>
                 
                 <div class="form-group">
-                    <input class="form-control" name="review" id="review" placeholder="리뷰를 작성해주세요."></input>
+                    <input class="form-control" name="content" id="content" placeholder="리뷰를 작성해주세요."></input>
                 </div>
                 <p></p>
                 <input class="btn btn-outline-danger" type="submit" value="리뷰 올리기">

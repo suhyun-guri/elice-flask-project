@@ -7,6 +7,11 @@
 {% block page_content %}    
     {% if book_list %}
     <h2 class="book-list-title"> 📖 책 목록 📖</h2><br>
+    <form action="{{url_for('main.search')}}" method="post" class="input-group searchbox">
+        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
+        aria-describedby="search-addon" name="keyword" />
+        <button type="submit" class="btn btn-outline-primary">search</button>
+    </form>
     {% if session['id'] %}
         <span class="main-description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
         <br><span class="main-description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
@@ -14,11 +19,7 @@
     {% else %}
         <span class="main-description"> <a href="{{ url_for('main.login')}}" style='color:blue;cursor:pointer'>로그인</a>하고 책을 대여해보세요.</span>
     {% endif %}
-    <form action="{{url_for('main.search')}}" method="post" class="input-group" style="float:right;width:300px;margin-right:72px">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-        aria-describedby="search-addon" name="keyword" />
-        <button type="submit" class="btn btn-outline-primary">search</button>
-    </form>
+    
 <section style="margin:25px 60px 0 60px;">
   <div class="container">
     <div class="row">

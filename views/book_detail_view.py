@@ -33,9 +33,15 @@ def write_review(book_id):
         flash("이미 작성한 리뷰가 있습니다.")
         return redirect(url_for('book_detail.book_detail', book_id=book_id))
     
-    if 'rating' in request.form:        
+    if 'rating' not in request.form:
+        flash("별점을 주세요.")
+        return redirect(url_for('book_detail.book_detail', book_id=book_id))
+    if 'content' not in request.form:
+        flash("내용을 써주세요.")
+        return redirect(url_for('book_detail.book_detail', book_id=book_id))
+    else:        
         rating = request.form['rating']
-        content = request.form['review']
+        content = request.form['content']
         user_name = session['name']
         
         review = Review(book_id, user_id, user_name, rating, content)
@@ -46,9 +52,7 @@ def write_review(book_id):
         db.session.commit() 
         flash("리뷰 업로드 완료")
         return redirect(url_for('book_detail.book_detail', book_id=book_id))
-    else:
-        flash("별점을 주세요!")
-        return redirect(url_for('book_detail.book_detail', book_id=book_id))
+    
 
 @bp.route('/delete_review/<int:review_id>')
 def delete_review(review_id):
