@@ -1,14 +1,21 @@
-<script src="{{ url_for('static', filename = 'bootstrap.min.js') }}"></script>    
-
 {% extends "base.html" %}
+{% block title %}마이페이지{% endblock %}
+{% block page_content %}
+    <h3 class="mylibrary-title"> 내 정보</h3>
+    <hr style="border-top: 8px solid;border-radius: 5px;">
+    <div class="user-info-box">
+        <p> <span class="book-detail-info">Name</span> : {{user.name}}</p>
+        <p> <span class="book-detail-info">Email</span> : {{user.email}}</p>
+        <p> <span class="book-detail-info">총 대여 건수</span> : {{myrental|length}} </p>
+        <p> <span class="book-detail-info">현재 대여중</span> : {{nowrental}} </p>
+    </div>
 
-{% block title %}대여 기록{% endblock %}
-{% block page_content %}  
-
-<h2 class="book-list-title"> 📖 나의 HISTORY 📖</h2><br>
-{% if myrental %}
-    <span class="main-description">{{session['name']}}님의 대여기록입니다.</span><br>
-     <span class="main-description"><span style="color:#a00">내가 준 별점</span>이 표시됩니다.</span>
+    <h3 class="mylibrary-title"> 대여 기록</h3>
+    <hr style="border-top: 8px solid;border-radius: 5px;">
+        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+    {% if myrental %}
+    <span class="user-description">{{session['name']}}님의 대여기록입니다.</span><br>
+     <span class="user-description"><span style="color:#a00">내가 준 별점</span>이 표시됩니다.</span>
     <section style="margin:25px 60px 0 60px;">
     <div class="container">
         <div class="row">
@@ -74,10 +81,32 @@
     </div>
     </section>
     {% else %}
-    <h2 class="book-list-title"> 대여기록이 없어요...</h2>
+    <h2 class="user-description"> 대여기록이 없어요...</h2>
     <form action="{{ url_for('main.home')}}">
-        <input class="book-list-title btn btn-warning" type="submit" value="책 대여하러 가기">
+        <input class="user-description btn btn-warning" type="submit" value="책 대여하러 가기">
     </form>
     {% endif %}
 
+    <h3 class="mylibrary-title"> 나의 리뷰</h3>
+    <hr style="border-top: 8px solid;border-radius: 5px;">
+    {% if myreview%}
+    {% for review in myreview %}
+        {% for book in book_list %}
+            {% if book.id == review.book_id %}
+                <div class="user-info-box">
+                <p><span class="user-description">[{{book.book_name}}]</span>, {{review.content}}
+                    {% for i in range(review.star|round|int) %}
+                        <span class="star">⭐</span>
+                    {% endfor %}
+                    {% for i in range(5 - (review.star|round|int)) %}
+                        <span class="notstar">⭐</span>
+                    {% endfor %}
+                    </p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% else %}
+        <h2 class="user-description"> 리뷰를 작성하지 않았어요...</h2>
+    {% endif %}
 {% endblock %}

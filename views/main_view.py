@@ -129,34 +129,6 @@ def return_book(book_id):
     flash(f"{book.book_name}이 반납완료되었습니다.")
     return redirect(url_for('main.return_page'))
 
-@bp.route('/rental_history')
-def rental_history():
-    user_id = session['id']
-    myrental = Rental_return.query.filter(Rental_return.user_id == user_id).all()
-    book_list = Book_info.query.all()
-    myreview = Review.query.filter(Review.user_id == user_id).all()
-    return render_template('rental_history.html', myrental = myrental, book_list = book_list, myreview=myreview)
-
-@bp.route('/rental_history/<int:rental_id>')
-def delete_history(rental_id):
-    user_id = session['id']
-    myrental = Rental_return.query.filter(Rental_return.id == rental_id).first()
-    
-    if not myrental:
-        flash("잘못된 접근입니다.")
-        return redirect(url_for('main.home'))
-    if myrental.user_id != user_id:
-        flash("권한이 없습니다.")
-        return redirect(url_for('main.home'))
-    if myrental.status == True:
-        flash("대여중이므로 삭제가 불가능합니다. 반납을 먼저 해주세요.")
-        return redirect(url_for('main.rental_history'))
-    
-    db.session.delete(myrental)
-    db.session.commit()
-    flash("대여기록이 삭제되었습니다.")
-    return redirect(url_for("main.rental_history"))
-
 @bp.route('/list')
 def _list():
     page = request.args.get('page', type=int, default=1) #페이지
@@ -190,7 +162,36 @@ def search():
         count = len(result)
     return render_template('search.html', book_list = result, keyword=keyword, count=count)
 
-@bp.errorhandler(404)
-def page_not_found(error):
-    # return render_template('404.html'), 404
-    return "에러에러"
+@bp.route('/mylibrary')
+def mylibrary():
+    user_id = session['id']
+    user_info = User.query.filter(User.id == user_id).first()
+    myrental = Rental_return.query.filter(Rental_return.user_id == user_id).all()
+    count = 0
+    for rental in myrental:
+        if rental.status == True:
+            count+=1
+    
+    book_list = Book_info.query.all()
+    myreview = Review.query.filter(Review.user_id == user_id).all()
+    return render_template('mylibrary.html', user=user_info, myrental = myrental, book_list = book_list, myreview=myreview, nowrental = count)
+
+@bp.route('/mylibrary/<int:rental_id>')
+def delete_history(rental_id):
+    user_id = session['id']
+    myrental = Rental_return.query.filter(Rental_return.id == rental_id).first()
+    
+    if not myrental:
+        flash("잘못된 접근입니다.")
+        return redirect(url_for('main.home'))
+    if myrental.user_id != user_id:
+        flash("권한이 없습니다.")
+        return redirect(url_for('main.home'))
+    if myrental.status == True:
+        flash("대여중이므로 삭제가 불가능합니다. 반납을 먼저 해주세요.")
+        return redirect(url_for('main.mylibrary'))
+    
+    db.session.delete(myrental)
+    db.session.commit()
+    flash("대여기록이 삭제되었습니다.")
+    return redirect(url_for("main.mylibrary"))

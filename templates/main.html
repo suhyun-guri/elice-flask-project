@@ -42,6 +42,7 @@
                 {% for i in range(5 - (book.rating|round|int)) %}
                     <span class="notstar">⭐</span>
                 {% endfor %}
+                <span>({{book.rating}})</span>
             </div>
             <a href="/detail/{{ book.id }}" class="stretched-link"></a>
             {% if session['id'] %}

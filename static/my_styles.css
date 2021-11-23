@@ -188,3 +188,24 @@ a.stretched-link:before {
 .goregister{
     cursor: pointer;
 }
+
+/* mylibrary */
+.mylibrary-title{
+    font-family: 'EliceDigitalBaeum_Bold';
+    margin-top:40px;
+}
+.user-info-box{
+    font-family: 'NanumSquareRound';
+}
+.user-info-box p {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d5dadb;
+}
+.user-description{
+    font-family: 'EliceDigitalBaeum_Regular';
+    font-weight: bold;
+    /* margin-left:100px;
+    margin-top:35px; */
+    font-size:17px;
+}
