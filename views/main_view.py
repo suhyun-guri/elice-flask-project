@@ -1,4 +1,4 @@
-from re import L
+import re
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash, jsonify
 from models.models import *
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -28,9 +28,13 @@ def register():
         email = request.form.get('email')
         
         user = User.query.filter(User.email == email).first()
+        reg1 = re.compile(r'[ㄱ-ㅣ가-힣a-zA-Z/]')
         if not user:
             if not name:
                 flash("이름을 입력하세요.")
+                return render_template('register.html')
+            if len(name) != len(reg1.findall(name)):
+                flash("이름은 한글/영어만 가능합니다.")
                 return render_template('register.html')
             if not email:
                 flash("이메일을 입력하세요")
