@@ -9,49 +9,39 @@
           alt="Sample image">
       </div>
       <div class="col-md-auto col-lg-auto col-xl-6 offset-xl-1">
-        <form action="{{ url_for('main.register') }}" method="post">
+        <form method="post">
+        {{form.csrf_token}}
         <h2 class="LoginTitle">엘리스 도서관 회원가입</h2>
           <div class="form-outline mb-3">
-            <label for="name">이름</label>
-            <input
-              class="form-control form-control-lg"
-              type="text"
-              name="name"
-              id="name"
-              placeholder="Enter name"
-            />
+            {{ form.name.label("이름") }}
+            {{ form.name(class="form-control", placeholder="이름") }}
+            {% for error in form.name.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
           </div>
           <div class="form-outline mb-3">
-            <label for="email">이메일</label>
-            <input
-              class="form-control form-control-lg"
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Enter a valid email address"
-            />
+            {{ form.email.label("이메일") }}
+            {{ form.email(class="form-control", placeholder="이메일") }}
+            {% for error in form.email.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
           </div>
           <div class="form-outline mb-3">
-            <label for="password">비밀번호</label>
-            <input
-              class="form-control form-control-lg"
-              name="password"
-              type="password"
-              placeholder="Enter password"
-            />
+            {{ form.password.label("비밀번호(8자리 이상)") }}
+            {{ form.password(class="form-control", placeholder="비밀번호") }}
+            {% for error in form.password.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
           </div>
           <div class="form-outline mb-3 mt-auto">
-            <label for="password">비밀번호 확인</label>
-            <input
-              class="form-control form-control-lg"
-              name="check_password"
-              type="password"
-              placeholder="Enter password again"
-            />
+            {{ form.password_check.label("비밀번호 확인") }}
+            {{ form.password_check(class="form-control", placeholder="비밀번호 확인") }}
+            {% for error in form.password_check.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
           </div>
-          <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;width:15em;">회원가입</button>
+          <div class="text-center text-lg-start mt-4">
+            {{ form.submit(class="btn btn-primary btn-lg register-btn") }}
           </div>
         </form>
       </div>

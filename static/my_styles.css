@@ -23,6 +23,9 @@ a {
     font-weight: normal;
     font-style: normal;
 }
+body {
+    font-family: 'NanumSquareRound';
+}
   
 .card-body {
     display:grid;
@@ -208,4 +211,14 @@ a.stretched-link:before {
     /* margin-left:100px;
     margin-top:35px; */
     font-size:17px;
+}
+
+.error-message{
+    color:red;
+    font-family: NanumSquareRound;
+}
+.register-btn{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width:13em;
 }

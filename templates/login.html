@@ -11,19 +11,25 @@
       </div>
       {% if not session['id'] %}
       <div class="col-md-auto col-lg-auto col-xl-6 offset-xl-1">
-        <form action="{{ url_for('main.login') }}" method="post">
+        <form method="post">
+        {{form.csrf_token}}
           <!-- Email input -->
           <h2 class="LoginTitle">엘리스 도서관 LOGIN</h2>
           <div class="form-outline mb-3">
-            <input type="email" id="form3Example3" class="form-control form-control-lg"
-              placeholder="Enter a valid email address" name="email"/>
-            <label class="form-label" for="form3Example3">Email address</label>
+            {{ form.email.label("이메일") }}
+            {{ form.email(class="form-control", placeholder="이메일") }}
+            {% for error in form.email.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
           </div>
 
           <!-- Password input -->
           <div class="form-outline mb-3">
-            <input type="password" id="form3Example4" class="form-control form-control-lg" placeholder="Enter password" name="password"/>
-            <label class="form-label" for="form3Example4">Password</label>
+            {{ form.password.label("비밀번호(8자리 이상)") }}
+            {{ form.password(class="form-control", placeholder="비밀번호") }}
+            {% for error in form.password.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
           </div>
 
           <div class="d-flex justify-content-between align-items-center">
@@ -31,8 +37,7 @@
           </div>
 
           <div class="text-center text-lg-start mt-4 pt-2">
-            <button type="submit" class="btn btn-primary btn-lg"
-              style="padding-left: 2.5rem; padding-right: 2.5rem;width:15em;">Login</button>
+            {{ form.submit(class="btn btn-primary btn-lg register-btn") }}
           </div>
 
         </form>

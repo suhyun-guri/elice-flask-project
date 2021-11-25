@@ -3,6 +3,7 @@ from flask import Blueprint, render_template, request, url_for, session, redirec
 from models.models import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta, datetime
+from forms import *
 
 bp = Blueprint('main', __name__, url_prefix='/')
 
@@ -19,66 +20,42 @@ def home():
 
 @bp.route('/register', methods = ['GET', 'POST'])
 def register():
-    if request.method == 'GET':
-        return render_template('register.html')
-    elif request.method == 'POST':
+    if 'id' in session: #로그인되어 있는 경우, home으로
+        return redirect(url_for('main.home'))
+    form = RegisterForm()
+    if form.validate_on_submit():
+        email = form.data.get('email')
+        name = form.data.get('name')
+        password = form.data.get('password')
+        hash_password = generate_password_hash(password)
         
-        password = request.form.get('password')
-        name = request.form.get('name')
-        email = request.form.get('email')
-        
-        user = User.query.filter(User.email == email).first()
-        reg1 = re.compile(r'[ㄱ-ㅣ가-힣a-zA-Z/]')
-        if not user:
-            if not name:
-                flash("이름을 입력하세요.")
-                return render_template('register.html')
-            if len(name) != len(reg1.findall(name)):
-                flash("이름은 한글/영어만 가능합니다.")
-                return render_template('register.html')
-            if not email:
-                flash("이메일을 입력하세요")
-                return render_template('register.html')
-            if not password:
-                flash("비밀번호를 입력하세요")
-                return render_template('register.html')
-            if len(password) < 8:
-                flash("비밀번호는 8자리 이상이어야 합니다.")
-                return render_template('register.html')
-            if request.form['password'] != request.form['check_password']:
-                flash("비밀번호 확인이 다릅니다.")
-                return redirect(url_for('main.register'))
-            
-            hash_password = generate_password_hash(password)
-            user = User(name, email, hash_password)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('main.login'))
-        else:
-            flash('이미 가입된 이메일입니다.')
-            return redirect(url_for('main.register'))
+        user = User(name, email, hash_password)
+        db.session.add(user)
+        db.session.commit()
+        flash('회원가입이 완료되었습니다.')
+        return redirect(url_for('main.login'))
+    return render_template("register.html", form=form)
 
 @bp.route('/login', methods=['GET','POST'])
 def login():
-    if request.method == 'GET':
-        return render_template('login.html')
-    elif request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
-        user = User.query.filter(User.email == email).first()
-        if not user:
-            flash("없는 이메일입니다.")
-            return redirect(url_for('main.login'))
-        elif not check_password_hash(user.password, password):
-            flash("비밀번호가 틀렸습니다.")
-            return redirect(url_for('main.login'))
-        else:
+    if 'id' in session: #로그인되어 있는 경우, home으로
+        return redirect(url_for('main.home'))
+    
+    form = LoginForm()    
+    if form.validate_on_submit():
+        user = User.query.filter(User.email == form.data.get('email')).first()
+        email = form.data.get('email')
+        password = form.data.get('password')
+        print(user)
+        if user and check_password_hash(user.password, password):
             session.clear()
             session['id'] = user.id
-            session['name'] = user.name
-            
-        flash(f"{user.name}님, 환영합니다🎉😃")
-        return redirect(url_for('main.home'))
+            session['name'] = user.name    
+            flash(f"{user.name}님, 환영합니다🎉😃")
+            return redirect(url_for('main.home'))
+        else:
+            flash("비밀번호가 틀렸습니다.")
+    return render_template("login.html", form=form)
 
 @bp.route('/logout')
 def logout():
