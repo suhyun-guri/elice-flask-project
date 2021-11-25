@@ -1,23 +1,26 @@
-import pandas as pd
-data = pd.read_csv('엘리스 도서관 책 정보 리스트.csv', header=0)
+import csv
+from datetime import date, datetime
 
-import os
-data['img_path']='temp'
-for i in range(1,len(data)+1):
-    file = os.path.isfile(f"./static/image/{i}.png")
-    if file:
-        data["img_path"][i-1] = f"/image/{i}.png"
-    else:
-        data["img_path"][i-1] = f"/image/{i}.jpg"
-
-import pymysql
-con = pymysql.connect(host='localhost', user='root', password='0903', db='library')
-cur = con.cursor()
-
-for index, row in data.iterrows():
-    data1 = (row['Unnamed: 0'], row['book_name'], row['publisher'], row['author'], row['publication_date'], row['pages'], row['isbn'], row['description'], row['link'], 5, 0, row['img_path'])
-    # print(data1)
-    cur.execute("INSERT INTO Book_info VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",data1)
-    
-con.commit()
-con.close()
+from app import db, create_app
+from models.models import Book_info
+app = create_app()
+with app.app_context():
+    with open('library.csv', 'r', encoding='utf-8-sig') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for row in reader:
+            print(row)
+            published_at = datetime.strptime(row['publication_date'], '%Y-%m-%d').date()
+        image_path = f"/image/{row['book_id']}"
+        try:
+            open(f'static/image/{image_path}.png')
+            image_path += '.png'
+        except:
+            image_path += '.jpg'
+        book = Book_info(
+            book_name=row['book_name'], publisher=row['publisher'],
+            author=row['author'], publication_date=published_at, pages=int(row['pages']),
+            isbn=row['isbn'], description=row['description'], link=row['link'],
+            count=5, rating=0,img_path=image_path)
+        
+        db.session.add(book) 
+    db.session.commit()

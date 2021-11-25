@@ -12,6 +12,9 @@ def create_app():
 
     db.init_app(app) # SQLAlchemy 객체를 app 객체와 이어줍니다.
     Migrate().init_app(app, db)
+    
+    with app.app_context():
+        db.create_all()
 
     from views import main_view, book_detail_view
     from models import models
