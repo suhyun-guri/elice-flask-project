@@ -176,3 +176,24 @@ def delete_history(rental_id):
     db.session.commit()
     flash("대여기록이 삭제되었습니다.")
     return redirect(url_for("main.mylibrary"))
+
+@bp.route('/delete_user')
+def delete_user():
+    user_id = session['id']
+    user_info = User.query.filter(User.id == user_id).first()
+    rental_return = Rental_return.query.filter(Rental_return.user_id == user_id, Rental_return.status == True).all()
+    if rental_return:
+        flash("반납하지 않은 책이 존재합니다. 모두 반납 후 탈퇴가 가능합니다.")
+        return redirect(url_for("main.return_page"))
+    if not user_info:
+        flash("잘못된 접근입니다.")
+        return redirect(url_for('main.home'))
+    if user_info.id != user_id:
+        flash("권한이 없습니다.")
+        return redirect(url_for('main.home'))
+    db.session.delete(user_info)
+    db.session.commit()
+    session.clear()
+
+    flash("탈퇴 완료되었습니다. 안녕히가세요.")
+    return redirect(url_for('main.home'))
