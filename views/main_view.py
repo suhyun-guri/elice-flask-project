@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash
 from models.models import *
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from datetime import timedelta, datetime
 from forms import *
 
@@ -63,37 +63,12 @@ def rental(book_id):
     
     return redirect(url_for("main.home"))
 
-@bp.route('/list')
-def _list():
-    page = request.args.get('page', type=int, default=1) #페이지
-    book_list = Book_info.query.order_by('id')
-    book_list = book_list.paginate(page, per_page=9)
-    return render_template('page_test.html', book_list = book_list)
-
-# @bp.route('/search/<query>', methods=['GET','POST'])
-# def search():
-#     if request.method == 'GET':
-#         return render_template('error.html')
-#     else:
-#         keyword = request.form['keyword']
-#         page = request.args.get('page', type=int, default=1) #페이지
-#         if keyword:
-#             result = Book_info.query.order_by('id').filter(Book_info.book_name.contains(keyword)).paginate(page, 8, True)
-#         count = len(Book_info.query.order_by('id').filter(Book_info.book_name.contains(keyword)).all())
-#         return render_template('search.html', book_list = result, keyword=keyword, count=count)
-
-@bp.route('/search', methods=['GET','POST'])
+@bp.route('/search', methods = ['GET', 'POST'])
 def search():
-    if request.method == 'GET':
-        return render_template('error.html')
-    else:
-        keyword = request.form['keyword']
-        if keyword:
-            result = Book_info.query.order_by('id').filter(Book_info.book_name.contains(keyword)).all()
-        else:
-            flash("검색어를 입력하세요.")
-            return redirect(url_for('main.home'))
-        count = len(result)
+    keyword = request.args.get('keyword')
+    page = request.args.get('page', 1, type=int)
+    if keyword:
+        count = Book_info.query.order_by('id').filter(Book_info.book_name.like(f"%{keyword}%")).count()
+        result = Book_info.query.order_by('id').filter(Book_info.book_name.like(f"%{keyword}%")).order_by(Book_info.id).paginate(page=page, per_page=8)
     return render_template('search.html', book_list = result, keyword=keyword, count=count)
-
 

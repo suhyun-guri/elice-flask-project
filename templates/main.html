@@ -7,20 +7,25 @@
 {% block page_content %}    
     {% if book_list %}
     <h2 class="book-list-title"> 📖 책 목록 📖</h2><br>
-    <form action="{{url_for('main.search')}}" method="post" class="input-group searchbox">
-        <input type="search" class="form-control rounded" placeholder="Search" aria-label="Search"
-        aria-describedby="search-addon" name="keyword" />
-        <button type="submit" class="btn btn-outline-primary">search</button>
-    </form>
-    {% if session['id'] %}
-        <div>
-            <span class="main-description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
-            <br><span class="main-description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
-            <br><span class="main-description"> <span style='color:#ff7d03'>가능한 대여권수</span>는 5권입니다.</span>
+    <div class='row'>
+        <div class="col-lg-6">
+            {% if session['id'] %}
+                <div>
+                    <span class="main-description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
+                    <br><span class="main-description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
+                    <br><span class="main-description"> <span style='color:#ff7d03'>가능한 대여권수</span>는 5권입니다.</span>
+                </div>
+            {% else %}
+                <span class="main-description"> <a href="{{ url_for('auth.login')}}" style='color:blue;cursor:pointer;'>로그인</a>하고 책을 대여해보세요.</span><p></p><br>
+            {% endif %}
         </div>
-    {% else %}
-        <span class="main-description"> <a href="{{ url_for('auth.login')}}" style='color:blue;cursor:pointer;'>로그인</a>하고 책을 대여해보세요.</span><p></p><br>
-    {% endif %}
+        <div class="col-lg-6">
+            <form action="{{url_for('main.search')}}" class="input-group searchbox">
+                <input type="text" class="form-control rounded" placeholder="검색어를 입력하세요." name="keyword" />
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </form>
+        </div>
+    </div>
     
 <section style="margin:25px 60px 0 60px;">
   <div class="container">
