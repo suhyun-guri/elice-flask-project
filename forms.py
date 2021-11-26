@@ -33,3 +33,9 @@ class LoginForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if not user:
             raise ValidationError("없는 이메일입니다.")
+        
+class UpdatePasswordForm(FlaskForm):
+    current_password = PasswordField('current_password', validators=[DataRequired()])
+    new_password = PasswordField('new_password', validators=[DataRequired(), Length(min=8, max=20, message="비밀번호는 8자리 이상이어야 합니다.")])
+    password_check = PasswordField('password_check', validators=[DataRequired(), EqualTo('new_password', message="비밀번호 확인이 다릅니다.")])
+    submit = SubmitField("비밀번호 변경하기")

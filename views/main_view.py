@@ -44,9 +44,7 @@ def login():
     form = LoginForm()    
     if form.validate_on_submit():
         user = User.query.filter(User.email == form.data.get('email')).first()
-        email = form.data.get('email')
         password = form.data.get('password')
-        print(user)
         if user and check_password_hash(user.password, password):
             session.clear()
             session['id'] = user.id
@@ -197,3 +195,22 @@ def delete_user():
 
     flash("탈퇴 완료되었습니다. 안녕히가세요.")
     return redirect(url_for('main.home'))
+
+@bp.route('/update_password', methods=['GET','POST'])
+def update_password():
+    if 'id' not in session: #로그인되어 있는 경우, home으로
+        return redirect(url_for('main.login'))
+    form = UpdatePasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter(User.id == session['id']).first()
+        current_password = form.data.get('current_password')
+        new_password = form.data.get('new_password')
+        
+        if user and check_password_hash(user.password, current_password):
+            user.password = generate_password_hash(new_password)
+            db.session.commit()
+            flash('비밀번호가 변경되었습니다.')
+            return redirect(url_for('main.mylibrary'))
+        else:
+            flash('현재 비밀번호가 틀렸습니다.')
+    return render_template("update_password.html", form=form)
