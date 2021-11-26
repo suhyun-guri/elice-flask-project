@@ -10,7 +10,7 @@
         <p> <span class="book-detail-info">현재 대여중</span> : {{nowrental}} </p>
     </div>
         <div class="d-flex flex-row-reverse">
-            <a class="btn btn-outline-danger" href="{{url_for('main.update_password')}}" style="float:right"> 비밀번호 변경</a>
+            <a class="btn btn-outline-danger" href="{{url_for('mylibrary.update_password')}}" style="float:right"> 비밀번호 변경</a>
         </div>
 
     <h3 class="mylibrary-title"> 대여 기록</h3>
@@ -67,7 +67,7 @@
                                 <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span> 대여기록을 삭제하시겠습니까?</h5>
                             </div>
                             <div class="modal-footer flex-column border-top-0">
-                                <form action="{{ url_for('main.delete_history', rental_id=rental.id)}}" class="w-100">
+                                <form action="{{ url_for('mylibrary.delete_history', rental_id=rental.id)}}" class="w-100">
                                     <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">삭제하기</button>
                                 </form>
                                 <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
@@ -128,7 +128,7 @@
                                 <h5><span style="font-weight:bold;">{{session['name']}}님,</span> 정말 탈퇴하시겠습니까?</h5>
                             </div>
                             <div class="modal-footer flex-column border-top-0">
-                                <form action="{{ url_for('main.delete_user')}}" class="w-100">
+                                <form action="{{ url_for('mylibrary.delete_user')}}" class="w-100">
                                     <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">탈퇴하기</button>
                                 </form>
                                 <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>

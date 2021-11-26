@@ -44,7 +44,7 @@
                                         <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span>을 반납하시겠습니까?</h5>
                                     </div>
                                     <div class="modal-footer flex-column border-top-0">
-                                        <form action="{{ url_for('main.return_book', book_id=book.id)}}" class="w-100">
+                                        <form action="{{ url_for('return_page.return_book', book_id=book.id)}}" class="w-100">
                                             <button type="submit" class="btn btn-lg btn-outline-primary w-100 mx-0 mb-2" style="width:100px;">반납하기</button>
                                         </form>
                                         <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>

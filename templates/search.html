@@ -17,7 +17,7 @@
         <br><span class="main-description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
         <br><span class="main-description"> <span style='color:#ff7d03'>가능한 대여권수</span>는 5권입니다.</span>
     {% else %}
-        <span class="main-description"> <a href="{{ url_for('main.login')}}" style='color:blue;cursor:pointer'>로그인</a>하고 책을 대여해보세요.</span>
+        <span class="main-description"> <a href="{{ url_for('auth.login')}}" style='color:blue;cursor:pointer'>로그인</a>하고 책을 대여해보세요.</span>
     {% endif %}
 <section style="margin:25px 60px 0 60px;">
   <div class="container">
@@ -62,7 +62,7 @@
                         <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span>을 대여하시겠습니까?</h5>
                     </div>
                     <div class="modal-footer flex-column border-top-0">
-                        <form action="{{ url_for('main.rental', book_id=book.id)}}" class="w-100">
+                        <form action="{{ url_for('rental_page.rental', book_id=book.id)}}" class="w-100">
                             <button type="submit" class="btn btn-lg btn-outline-primary w-100 mx-0 mb-2" style="width:100px;">대여하기</button>
                         </form>
                         <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>

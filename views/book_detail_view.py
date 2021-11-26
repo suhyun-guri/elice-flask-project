@@ -1,6 +1,5 @@
-from flask import Blueprint, render_template, request, url_for, session, redirect, flash, jsonify
+from flask import Blueprint, render_template, request, url_for, session, redirect, flash
 from models.models import *
-from datetime import timedelta, datetime
 
 
 bp = Blueprint('book_detail', __name__, url_prefix='/detail')

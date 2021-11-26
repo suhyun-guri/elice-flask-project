@@ -22,20 +22,20 @@
                         <span class="nav-link" style="color: white;">안녕하세요. {{ session['name'] }} 님!</span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.mylibrary') }}">나의 도서관</a>
+                        <a class="nav-link" href="{{ url_for('mylibrary.mylibrary') }}">나의 도서관</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.return_page') }}">반납하기</a>
+                        <a class="nav-link" href="{{ url_for('return_page.return_page') }}">반납하기</a>
                     </li>
                     <li class="nav-item">
                         <div class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal">로그아웃</div>               
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.register') }}">회원가입</a>               
+                        <a class="nav-link" href="{{ url_for('auth.register') }}">회원가입</a>               
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.login') }}">로그인</a>
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">로그인</a>
                     </li>
                 {% endif %}
             </ul>
@@ -55,7 +55,7 @@
                 <h5><span style="font-weight:bold;">정말 로그아웃 하시겠습니까?</h5>
             </div>
             <div class="modal-footer flex-column border-top-0">
-                <form action="{{ url_for('main.logout')}}" class="w-100">
+                <form action="{{ url_for('auth.logout')}}" class="w-100">
                     <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">로그아웃</button>
                 </form>
                 <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>

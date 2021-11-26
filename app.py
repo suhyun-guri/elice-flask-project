@@ -16,10 +16,13 @@ def create_app():
     with app.app_context():
         db.create_all()
 
-    from views import main_view, book_detail_view
+    from views import main_view, book_detail_view, auth, mylibrary, return_page
     from models import models
     app.register_blueprint(main_view.bp)
     app.register_blueprint(book_detail_view.bp)
+    app.register_blueprint(auth.bp)
+    app.register_blueprint(mylibrary.bp)
+    app.register_blueprint(return_page.bp)
 
     app.secret_key = "seeeeeeeeeeeecret"
     app.config['SESSION_TYPE'] = 'filesystem'
@@ -27,4 +30,4 @@ def create_app():
     return app
 
 if __name__ == "__main__":
-    create_app().run(host='0.0.0.0')
+    create_app().run(host='0.0.0.0', debug=True)

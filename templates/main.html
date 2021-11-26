@@ -19,7 +19,7 @@
             <br><span class="main-description"> <span style='color:#ff7d03'>가능한 대여권수</span>는 5권입니다.</span>
         </div>
     {% else %}
-        <span class="main-description"> <a href="{{ url_for('main.login')}}" style='color:blue;cursor:pointer;'>로그인</a>하고 책을 대여해보세요.</span><p></p><br>
+        <span class="main-description"> <a href="{{ url_for('auth.login')}}" style='color:blue;cursor:pointer;'>로그인</a>하고 책을 대여해보세요.</span><p></p><br>
     {% endif %}
     
 <section style="margin:25px 60px 0 60px;">
