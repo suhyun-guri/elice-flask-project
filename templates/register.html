@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}엘리스 도서관 회원가입{% endblock %}
+{% block page_content %}
+<section class="vh-100">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-3">
+        <img src="{{url_for('static', filename='image/rabbit.png')}}" class="img-fluid"
+          alt="Sample image">
+      </div>
+      <div class="col-md-auto col-lg-auto col-xl-6 offset-xl-1">
+        <form method="post">
+        {{form.csrf_token}}
+        <h2 class="LoginTitle">엘리스 도서관 회원가입</h2>
+          <div class="form-outline mb-3">
+            {{ form.name.label("이름") }}
+            {{ form.name(class="form-control", placeholder="이름") }}
+            {% for error in form.name.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="form-outline mb-3">
+            {{ form.email.label("이메일") }}
+            {{ form.email(class="form-control", placeholder="이메일") }}
+            {% for error in form.email.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="form-outline mb-3">
+            {{ form.password.label("비밀번호(8자리 이상)") }}
+            {{ form.password(class="form-control", placeholder="비밀번호") }}
+            {% for error in form.password.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="form-outline mb-3 mt-auto">
+            {{ form.password_check.label("비밀번호 확인") }}
+            {{ form.password_check(class="form-control", placeholder="비밀번호 확인") }}
+            {% for error in form.password_check.errors %}
+            <span class="error-message">[{{ error }}]</span>
+            {% endfor %}
+          </div>
+          <div class="text-center text-lg-start mt-4">
+            {{ form.submit(class="btn btn-primary btn-lg register-btn") }}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}마이페이지{% endblock %}
+{% block page_content %}
+    <h3 class="mylibrary-title"> 내 정보</h3>
+    <hr style="border-top: 8px solid;border-radius: 5px;">
+    <div class="user-info-box">
+        <p> <span class="book-detail-info">Name</span> : {{user.name}}</p>
+        <p> <span class="book-detail-info">Email</span> : {{user.email}}</p>
+        <p> <span class="book-detail-info">총 대여 건수</span> : {{myrental|length}} </p>
+        <p> <span class="book-detail-info">현재 대여중</span> : {{nowrental}} </p>
+    </div>
+        <div class="d-flex flex-row-reverse">
+            <a class="btn btn-outline-danger" href="{{url_for('mylibrary.update_password')}}" style="float:right"> 비밀번호 변경</a>
+        </div>
+
+    <h3 class="mylibrary-title"> 대여 기록</h3>
+    <hr style="border-top: 8px solid;border-radius: 5px;">
+        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+    {% if myrental %}
+    <span class="user-description">{{session['name']}}님의 대여기록입니다.</span><br>
+     <span class="user-description"><span style="color:#a00">내가 준 별점</span>이 표시됩니다.</span>
+    <section style="margin:25px 60px 0 60px;">
+    <div class="container">
+        <div class="row">
+        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+        {% for rental in myrental%}
+            {% for book in book_list %}
+                {% if rental.book_id == book.id %}
+                <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
+                    <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
+                        <img class="align-self-center" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
+                    <div class="card-body  d-flex flex-column">
+                        <h5 class="card-title mb-auto">{{ book.book_name }}</h5>
+                        <div style="margin-bottom:10px;" class="card-text mt-auto main-content"> 
+                            {% if rental.status == False %}
+                            {{ rental.rental_date }} ~ {{ rental.return_date }}<p></p>
+                            {% else %}
+                            {{ rental.rental_date }} ~ 대여중 <br> (반납 기한 : {{ rental.return_date }})<p></p>
+                            {% endif %}
+                            {% for review in myreview %}
+                                {% if review.book_id == book.id %}
+                                    나의 별점<br>
+                                    {% for i in range(review.star|round|int) %}
+                                        <span class="star">⭐</span>
+                                    {% endfor %}
+                                    {% for i in range(5 - (review.star|round|int)) %}
+                                        <span class="notstar">⭐</span>
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                            <a href="/detail/{{ book.id }}" class="stretched-link"></a>
+                            <div class="btn btn-outline-danger mt-auto align-self-center second" style="width:100px;"  data-bs-toggle="modal" data-bs-target="#deleteModal{{book.id}}">삭제</div>
+                    </div>
+                    </div>
+                </div>
+                <!-- basic modal -->
+                <div class="modal fade" id="deleteModal{{book.id}}" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-6 shadow">
+                            <div class="modal-header border-bottom-0">
+                                <h4 class="modal-title" id="myModalLabel">삭제하기</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span> 대여기록을 삭제하시겠습니까?</h5>
+                            </div>
+                            <div class="modal-footer flex-column border-top-0">
+                                <form action="{{ url_for('mylibrary.delete_history', rental_id=rental.id)}}" class="w-100">
+                                    <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">삭제하기</button>
+                                </form>
+                                <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        <!--ADD CLASSES HERE d-flex align-items-stretch-->
+        </div>
+    </div>
+    </section>
+    {% else %}
+    <h2 class="user-description"> 대여기록이 없어요...</h2>
+    <form action="{{ url_for('main.home')}}">
+        <input class="user-description btn btn-warning" type="submit" value="책 대여하러 가기">
+    </form>
+    {% endif %}
+
+    <h3 class="mylibrary-title"> 나의 리뷰</h3>
+    <hr style="border-top: 8px solid;border-radius: 5px;">
+    {% if myreview%}
+    {% for review in myreview %}
+        {% for book in book_list %}
+            {% if book.id == review.book_id %}
+                <div class="user-info-box">
+                <p><span class="user-description">[{{book.book_name}}]</span>, {{review.content}}
+                    {% for i in range(review.star|round|int) %}
+                        <span class="star">⭐</span>
+                    {% endfor %}
+                    {% for i in range(5 - (review.star|round|int)) %}
+                        <span class="notstar">⭐</span>
+                    {% endfor %}
+                    </p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    {% else %}
+        <h2 class="user-description"> 리뷰를 작성하지 않았어요...</h2>
+    {% endif %}
+
+    <div class="d-flex flex-row-reverse">
+            <div class="btn btn-outline-danger mt-5 align-self-center second" style="width:100px;float:right;margin-bottom:30px;" data-bs-toggle="modal" data-bs-target="#deleteUser{{session['id']}}">회원탈퇴</div>
+        </div>
+    <div class="modal fade" id="deleteUser{{session['id']}}" tabindex="-1" role="dialog" aria-labelledby="deleteUser" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content rounded-6 shadow">
+                            <div class="modal-header border-bottom-0">
+                                <h4 class="modal-title" id="myModalLabel">삭제하기</h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <h5><span style="font-weight:bold;">{{session['name']}}님,</span> 정말 탈퇴하시겠습니까?</h5>
+                            </div>
+                            <div class="modal-footer flex-column border-top-0">
+                                <form action="{{ url_for('mylibrary.delete_user')}}" class="w-100">
+                                    <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">탈퇴하기</button>
+                                </form>
+                                <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+{% endblock %}

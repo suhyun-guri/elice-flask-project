@@ -1,0 +1,131 @@
+<script src="{{ url_for('static', filename = 'bootstrap.min.js') }}"></script>    
+
+{% extends "base.html" %}
+
+{% block title %}엘리스 도서관{% endblock %}
+
+{% block page_content %}    
+    {% if book_list %}
+    <h2 class="book-list-title"> 📖 책 목록 📖</h2><br>
+    <div class='row'>
+        <div class="col-lg-6">
+            {% if session['id'] %}
+                <div>
+                    <span class="main-description"> <span style='color:blue'>대여하기</span>를 눌러 책을 대여해보세요.</span>
+                    <br><span class="main-description"> <span style='color:#02a1d1'>대여기간</span>은 2주입니다.</span>
+                    <br><span class="main-description"> <span style='color:#ff7d03'>가능한 대여권수</span>는 5권입니다.</span>
+                </div>
+            {% else %}
+                <span class="main-description"> <a href="{{ url_for('auth.login')}}" style='color:blue;cursor:pointer;'>로그인</a>하고 책을 대여해보세요.</span><p></p><br>
+            {% endif %}
+        </div>
+        <div class="col-lg-6">
+            <form action="{{url_for('main.search')}}" class="input-group searchbox">
+                <input type="text" class="form-control rounded" placeholder="검색어를 입력하세요." name="keyword" />
+                <button type="submit" class="btn btn-outline-primary">Search</button>
+            </form>
+        </div>
+    </div>
+    
+<section style="margin:25px 60px 0 60px;">
+  <div class="container">
+    <div class="row">
+      <!--ADD CLASSES HERE d-flex align-items-stretch-->
+      {% for book in book_list.items %}
+      <div class="col-lg-3 mb-3 d-flex align-items-stretch" >
+        <div class="card text-center"  style="width:400px;padding:10px;border-radius:15px;">
+            <img class="align-self-center" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" style="max-width: auto; max-height: 150px;" alt="Book Image">
+          <div class="card-body  d-flex flex-column">
+            <div class="card-title mb-auto">{{ book.book_name }}</div>
+            <div style="margin-bottom:10px;" class="card-text mt-auto main-content">
+                {% if book.count <= 1 %} 
+                    <span style="color:red">{{ book.count }} 권 남음</span><p></p>
+                {% else %}
+                    {{ book.count }} 권 남음<p></p>
+                {% endif %}
+                {% for i in range(book.rating|round|int) %}
+                    <span class="star">⭐</span>
+                {% endfor %}
+                {% for i in range(5 - (book.rating|round|int)) %}
+                    <span class="notstar">⭐</span>
+                {% endfor %}
+                <span>({{book.rating}})</span>
+            </div>
+            <a href="/detail/{{ book.id }}" class="stretched-link"></a>
+            {% if session['id'] %}
+            <div class="btn btn-primary mt-auto align-self-center second" style="width:180px;" data-bs-toggle="modal" data-bs-target="#RentalModal{{book.id}}" >대여하기</div>
+            
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      <!-- basic modal -->
+        <div class="modal fade" id="RentalModal{{book.id}}" tabindex="-1" role="dialog" aria-labelledby="RentalModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content rounded-6 shadow">
+                    <div class="modal-header border-bottom-0">
+                        <h4 class="modal-title" id="myModalLabel">대여하기</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h5><span style="font-weight:bold;">[ {{book.book_name}} ]</span>을 대여하시겠습니까?</h5>
+                    </div>
+                    <div class="modal-footer flex-column border-top-0">
+                        <form action="{{ url_for('main.rental', book_id=book.id)}}" class="w-100">
+                            <button type="submit" class="btn btn-lg btn-outline-primary w-100 mx-0 mb-2" style="width:100px;">대여하기</button>
+                        </form>
+                        <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+    {% endif %}
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center" style="margin-top:20px;">
+        <!-- 이전페이지 -->
+        {% if book_list.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ book_list.prev_num }}">&laquo</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&laquo</a>
+        </li>
+        {% endif %}
+        {% for page_num in book_list.iter_pages() %}
+            {% if page_num %}
+                {% if page_num != book_list.page %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+                {% else %}
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link" href="#">{{ page_num }}</a>
+                </li>
+                {% endif %}
+           {% else %}
+                <li class="disabled">
+                    <a class="page-link" href="#">...</a>
+                </li>
+           {% endif %}
+        {% endfor %}
+        <!-- 다음페이지 -->
+        {% if book_list.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="?page={{ book_list.next_num }}">&raquo;</a>
+        </li>
+        {% else %}
+        <li class="page-item disabled">
+            <a class="page-link" tabindex="-1" aria-disabled="true" href="#">&raquo;</a>
+        </li>
+        {% endif %}
+    </ul>
+    <!-- 페이징처리 끝 -->
+
+
+{% endblock %}

@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg navbar-dark border-bottom" style="background-color: #404040;">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url_for('main.home') }}">📚 엘리스 도서관 📚</a>
+        <button
+            class="navbar-toggler ml-auto"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+            
+            <ul class="nav navbar-nav navbar-right">
+                <!-- 네비게이션 바-->
+                {% if session['id'] %}
+                    <li class="nav-item">
+                        <span class="nav-link" style="color: white;">안녕하세요. {{ session['name'] }} 님!</span>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('mylibrary.mylibrary') }}">나의 도서관</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('return_page.return_page') }}">반납하기</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="nav-link" data-bs-toggle="modal" data-bs-target="#logoutModal">로그아웃</div>               
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.register') }}">회원가입</a>               
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.login') }}">로그인</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+ <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-6 shadow">
+            <div class="modal-header border-bottom-0">
+                <h4 class="modal-title" id="myModalLabel">로그아웃</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5><span style="font-weight:bold;">정말 로그아웃 하시겠습니까?</h5>
+            </div>
+            <div class="modal-footer flex-column border-top-0">
+                <form action="{{ url_for('auth.logout')}}" class="w-100">
+                    <button type="submit" class="btn btn-lg btn-outline-danger w-100 mx-0 mb-2" style="width:100px;">로그아웃</button>
+                </form>
+                <button type="button" class="btn btn-lg btn-light w-100 mx-0" data-bs-dismiss="modal">Close</button>
+                
+            </div>
+        </div>
+    </div>
+</div>

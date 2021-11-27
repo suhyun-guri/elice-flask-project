@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}엘리스 도서관 > 자세히 > {{book.book_name}}{% endblock %}
+{% block page_content %}
+    <section>
+        <div class="container px-4 px-lg-5 my-5">
+            {% if book %}
+            <p class="display-5 fw-bolder" style="font-family: 'EliceDigitalBaeum_Bold';">{{ book.book_name }}</p>
+            <hr style="border-top: 8px solid #bbb;border-radius: 5px;">
+                <div class="row align-items-center">
+                    <div class="col-md-5 book-image"><img class="card-img-top mb-5 mb-md-0" src = "{{ url_for('static', filename='{}'.format(book.img_path)) }}" alt="Book_image"/></div>
+                    <div class="book-detail-page col-md-7">
+                        <p></p>
+                        <div class="book-info-box">
+                            <p> <span class="book-detail-info">출판사</span> : {{ book.publisher }}</p>
+                            <p> <span class="book-detail-info">저자</span> : {{ book.author }}</p>
+                            <p> <span class="book-detail-info">출간일</span> : {{ book.publication_date }}</p>
+                            <p> <span class="book-detail-info">페이지 수</span> : {{ book.pages }}</p>
+                            <p> <span class="book-detail-info">ISBN 코드</span> : {{ book.isbn }}</p>
+                        </div>
+                        
+                        <div style="border:1px solid #f0f0f0;padding:10px;margin-top:10px;margin-bottom:10px;border-radius:7px;">
+                            <p> <span class="book-detail-info">책 소개</span> </p>
+                            {% for content in book.description.split('\n') %}
+                            <p> {{ content }} </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <section class="review-box">
+        {% if not reviews %}
+            <h1 style="font-family: 'EliceDigitalBaeum_Bold';">Review</h1>
+            <div> 아직 리뷰가 없습니다. </div>
+        
+        {% else %}
+        <h1 style="font-family: 'EliceDigitalBaeum_Bold';">Review <span style="font-size:21px;">(평점 : {{ avg }} ({{ reviews|length }}명 참여))</span> </h1>
+        <p></p>
+        
+        {% for review in reviews%}
+                <div style="border: 1px solid; padding: 0.9em; margin: 0.5em">
+                    <span>작성자 : {{ review.user_name }}</span>
+                    <span style="float: right;">{{ review.created_date }}</span><br>
+                    {% for i in range(review.star) %}
+                        <span class="star">⭐</span>
+                    {% endfor %}
+                    <br>
+                    <span> {{review.content}} </span>
+                    {% if review.user_id == session['id'] %}
+                        <a class="btn btn-danger btn-sm" style="float: right; width:70px;" href="{{ url_for('book_detail.delete_review', book_id = book.id, review_id=review.id) }}">삭제</a>
+                    {% endif %}
+                </div>
+        {% endfor %}
+        {% endif %}
+        {% if session['id'] %}
+            
+            <form action="{{ url_for('book_detail.write_review', book_id=book.id) }}" name="myform" id="myform" method="post">
+                <fieldset>
+                    <input type="radio" name="rating" value="5" id="rate1"><label for="rate1">⭐</label>
+                    <input type="radio" name="rating" value="4" id="rate2"><label for="rate2">⭐</label>
+                    <input type="radio" name="rating" value="3" id="rate3"><label for="rate3">⭐</label>
+                    <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">⭐</label>
+                    <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">⭐</label>
+                </fieldset>
+                
+                <div class="form-group">
+                    <input class="form-control" name="content" id="content" placeholder="리뷰를 작성해주세요."></input>
+                </div>
+                <p></p>
+                <input class="btn btn-outline-danger" type="submit" value="리뷰 올리기">
+            </form> 
+        {% endif %}
+    </section>
+{% endblock %}

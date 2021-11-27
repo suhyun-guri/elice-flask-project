@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}엘리스 도서관{% endblock %}
+
+{% block page_content %}  
+    <div style="text-align:center;">
+        <img class="align-self-center" src = "{{ url_for('static', filename="/image/error-route.png") }}" style="display: inline-block; width: 50%;height: 50%;">
+        <h2 class="LoginTitle text-center">Page Not Found 404</h2>
+    </div>
+{% endblock %}
