@@ -3,7 +3,10 @@ from models.models import *
 from werkzeug.security import generate_password_hash
 from datetime import timedelta, datetime
 from forms import *
-
+'''
+메인 화면 페이지
+메인, 대여, 검색
+'''
 bp = Blueprint('main', __name__, url_prefix='/')
 
 @bp.app_errorhandler(404)
@@ -16,24 +19,6 @@ def home():
     book_list = Book_info.query.order_by('id')
     book_list = book_list.paginate(page, per_page=8)
     return render_template('main.html', book_list = book_list)
-
-@bp.route('/register', methods = ['GET', 'POST'])
-def register():
-    if 'id' in session: #로그인되어 있는 경우, home으로
-        return redirect(url_for('main.home'))
-    form = RegisterForm()
-    if form.validate_on_submit():
-        email = form.data.get('email')
-        name = form.data.get('name')
-        password = form.data.get('password')
-        hash_password = generate_password_hash(password)
-        
-        user = User(name, email, hash_password)
-        db.session.add(user)
-        db.session.commit()
-        flash('회원가입이 완료되었습니다.')
-        return redirect(url_for('main.login'))
-    return render_template("register.html", form=form)
 
 @bp.route('/rental/<int:book_id>')
 def rental(book_id):
@@ -65,8 +50,10 @@ def rental(book_id):
 
 @bp.route('/search', methods = ['GET', 'POST'])
 def search():
+    #query string 가져오기
     keyword = request.args.get('keyword')
     page = request.args.get('page', 1, type=int)
+    #검색어가 있다면,
     if keyword:
         count = Book_info.query.order_by('id').filter(Book_info.book_name.like(f"%{keyword}%")).count()
         result = Book_info.query.order_by('id').filter(Book_info.book_name.like(f"%{keyword}%")).order_by(Book_info.id).paginate(page=page, per_page=8)

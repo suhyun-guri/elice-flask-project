@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, url_for, session, redirect, flash
 from models.models import *
-from werkzeug.security import generate_password_hash, check_password_hash
 from forms import *
 
 bp = Blueprint('return_page', __name__, url_prefix='/return_page')

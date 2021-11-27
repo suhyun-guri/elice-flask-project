@@ -3,7 +3,6 @@ from wtforms import StringField, PasswordField,SubmitField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, EqualTo, Email, Length, ValidationError,Regexp
 from models.models import *
-from werkzeug.security import check_password_hash
 
 class RegisterForm(FlaskForm):
     email = EmailField('email', validators=[DataRequired(), Email(message="이메일 형식이 아닙니다.")])

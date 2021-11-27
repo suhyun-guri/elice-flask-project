@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash
 from models.models import *
-
+'''
+책 소개 페이지
+리뷰쓰기, 리뷰 삭제
+'''
 
 bp = Blueprint('book_detail', __name__, url_prefix='/detail')
 

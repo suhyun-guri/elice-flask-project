@@ -12,9 +12,9 @@ class Book_info(db.Model):
     isbn = db.Column(db.Integer)
     description = db.Column(db.Text)
     link = db.Column(db.String(1000))
-    count = db.Column(db.Integer)
-    rating = db.Column(db.Integer)
-    img_path = db.Column(db.String(255))
+    count = db.Column(db.Integer) #재고
+    rating = db.Column(db.Integer) #별점
+    img_path = db.Column(db.String(255)) #책 이미지 경로
     
     bookid1 = db.relationship("Rental_return", backref="book_info")
     bookid2 = db.relationship("Review", backref="book_info")
@@ -37,9 +37,9 @@ class Rental_return(db.Model):
     id =  db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     book_id = db.Column(db.Integer, db.ForeignKey("book_info.id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    rental_date = db.Column(db.Date)
-    return_date = db.Column(db.Date)
-    status = db.Column(db.Boolean)
+    rental_date = db.Column(db.Date) #대여날짜
+    return_date = db.Column(db.Date) #반납날짜 (대여중이면 반납기한(대여날짜 + 2주))
+    status = db.Column(db.Boolean) #대여중이면 True, 반납완료면 False
     
     def __init__(self,book_id,user_id,rental_date,return_date,status):
         self.book_id = book_id
@@ -55,7 +55,7 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     star = db.Column(db.Integer)
     content = db.Column(db.Text)
-    created_date = db.Column(db.Date, default=datetime.now())
+    created_date = db.Column(db.Date, default=datetime.now()) #생성 날짜 yyyy-mm-dd
     user_name = db.Column(db.String(255))
     
     def __init__(self, book_id, user_id, user_name, star, content):

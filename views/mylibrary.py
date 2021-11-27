@@ -2,7 +2,10 @@ from flask import Blueprint, render_template, url_for, session, redirect, flash
 from models.models import *
 from werkzeug.security import generate_password_hash, check_password_hash
 from forms import *
-
+'''
+나의 도서관 관련 페이지
+내 정보 보여주기, 대여기록 삭제, 회원 탈퇴, 비밀번호 변경하기
+'''
 bp = Blueprint('mylibrary', __name__, url_prefix='/mylibrary')
 
 @bp.route('/')

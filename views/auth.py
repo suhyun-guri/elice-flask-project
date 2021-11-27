@@ -1,9 +1,11 @@
 from flask import Blueprint, render_template, url_for, session, redirect, flash
 from models.models import *
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import timedelta, datetime
 from forms import *
-
+'''
+auth 관련 기능
+회원가입, 로그인, 로그아웃
+'''
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods = ['GET', 'POST'])
