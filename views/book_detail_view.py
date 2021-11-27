@@ -37,16 +37,18 @@ def write_review(book_id):
         flash("이미 작성한 리뷰가 있습니다.")
         return redirect(url_for('book_detail.book_detail', book_id=book_id))
     
-    if 'rating' not in request.form:
+    rating = request.form['rating']
+    content = request.form['content']
+    user_name = session['name']
+    
+    if not rating:
         flash("별점을 주세요.")
         return redirect(url_for('book_detail.book_detail', book_id=book_id))
-    if 'content' not in request.form:
+    if not content or content.strip() == '':
         flash("내용을 써주세요.")
         return redirect(url_for('book_detail.book_detail', book_id=book_id))
     else:        
-        rating = request.form['rating']
-        content = request.form['content']
-        user_name = session['name']
+        
         
         review = Review(book_id, user_id, user_name, rating, content,nowDate)
         db.session.add(review)
