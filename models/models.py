@@ -55,12 +55,13 @@ class Review(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     star = db.Column(db.Integer)
     content = db.Column(db.Text)
-    created_date = db.Column(db.Date, default=datetime.now()) #생성 날짜 yyyy-mm-dd
+    created_date = db.Column(db.Date) 
     user_name = db.Column(db.String(255))
     
-    def __init__(self, book_id, user_id, user_name, star, content):
+    def __init__(self, book_id, user_id, user_name, star, content, created_date):
         self.book_id = book_id
         self.user_id = user_id
         self.user_name = user_name
         self.star = star
         self.content = content
+        self.created_date = created_date

@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash
 from models.models import *
+from datetime import datetime
 '''
 책 소개 페이지
 리뷰쓰기, 리뷰 삭제
@@ -29,6 +30,7 @@ def write_review(book_id):
     review_info = Review.query.filter(Review.book_id == book_id).all()
     temp = book_info.rating * len(review_info)
     user_id = session['id']
+    nowDate = datetime.now()
     
     check_myreview = Review.query.filter(Review.book_id == book_id, Review.user_id == user_id).first()
     if check_myreview:
@@ -46,7 +48,7 @@ def write_review(book_id):
         content = request.form['content']
         user_name = session['name']
         
-        review = Review(book_id, user_id, user_name, rating, content)
+        review = Review(book_id, user_id, user_name, rating, content,nowDate)
         db.session.add(review)
         
         newrating = round((temp + int(rating)) / (len(review_info) + 1), 2)
