@@ -33,7 +33,7 @@ def rental(book_id):
         if len(rental_cnt_check) >= 5:
             flash("현재 대여중인 책 5권이 존재합니다. 대여는 5권까지 가능합니다.")
             return redirect(url_for("main.home"))
-        nowDate = datetime.now()
+        nowDate = datetime.utcnow() + timedelta(hours=9)
         duration = timedelta(weeks=2)
         endDate = datetime.now() + duration
         
