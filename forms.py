@@ -12,7 +12,8 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('회원가입')
     
     def validate_name(self, name):
-        excluded_chars = " *?!'^+%&/()=}][{$#"
+        # excluded_chars = " *?!'^+%&/()=}][{$#"
+        excluded_chars = '`~!@#$%^&*()_+|\\}{[]":;\'?><,./'
         for char in name.data:
             if char in excluded_chars:
                 raise ValidationError(f"이름은 한글/영어로만 이루어져야 합니다. (특수기호 X)")

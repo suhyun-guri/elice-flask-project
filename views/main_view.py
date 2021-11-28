@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash
 from models.models import *
 from werkzeug.security import generate_password_hash
-from datetime import timedelta, datetime
+from datetime import timedelta, date
 from forms import *
 '''
 메인 화면 페이지
@@ -33,7 +33,8 @@ def rental(book_id):
         if len(rental_cnt_check) >= 5:
             flash("현재 대여중인 책 5권이 존재합니다. 대여는 5권까지 가능합니다.")
             return redirect(url_for("main.home"))
-        nowDate = datetime.utcnow() + timedelta(hours=9)
+        # nowDate = datetime.utcnow() + timedelta(hours=9)
+        nowDate = date.today()
         duration = timedelta(weeks=2)
         endDate = datetime.now() + duration
         

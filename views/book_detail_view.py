@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, url_for, session, redirect, flash
 from models.models import *
-from datetime import datetime, timedelta
+from datetime import date, timedelta
 '''
 책 소개 페이지
 리뷰쓰기, 리뷰 삭제
@@ -11,7 +11,7 @@ bp = Blueprint('book_detail', __name__, url_prefix='/detail')
 @bp.route('/<int:book_id>')
 def book_detail(book_id):
     book_info = Book_info.query.filter(Book_info.id == book_id).first()
-    review_info = Review.query.filter(Review.book_id == book_id).all()
+    review_info = Review.query.filter(Review.book_id == book_id).order_by(Review.id.desc()).all()
   
     if not book_info:
         flash("잘못된 접근입니다.")
@@ -30,7 +30,8 @@ def write_review(book_id):
     review_info = Review.query.filter(Review.book_id == book_id).all()
     temp = book_info.rating * len(review_info)
     user_id = session['id']
-    nowDate = datetime.utcnow() + timedelta(hours=9)
+    # nowDate = datetime.utcnow() + timedelta(hours=9)
+    nowDate = date.today()
     
     check_myreview = Review.query.filter(Review.book_id == book_id, Review.user_id == user_id).first()
     if check_myreview:
