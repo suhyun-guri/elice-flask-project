@@ -44,7 +44,7 @@ Flask폴더
 ├── app.py : create_app 함수 정의                                           
 ├── config.py
 ├── csvtodb.py
-├── forms.db
+├── forms.py
 ```
 ## 전체 프로젝트 일정
 
