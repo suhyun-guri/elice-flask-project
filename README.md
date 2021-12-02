@@ -1,6 +1,9 @@
 # 3기_도서관대출서비스_김수현
 ## 프로젝트 데모 
 [3기_김수현_도서관대출서비스 데모](http://elice-kdt-3rd-vm-059.koreacentral.cloudapp.azure.com/)
+
+![image](https://user-images.githubusercontent.com/70987343/144368976-c8eafa55-3e8b-4c5f-a4d7-c583827ed869.png)
+
 ## 프로젝트 소개 
 도서관 대출 서비스는 레이서 도서관에 있는 책을 온라인으로 관리할 수 있는 웹 서비스입니다. <br>
 책의 상세 정보를 확인할 수 있는 페이지와 대여/반납 기능을 통해 도서 관리를 할 수 있는 웹 서비스를 제작합니다.
@@ -48,6 +51,7 @@ Flask폴더
 ├── forms.py
 ```
 ## 전체 프로젝트 일정
+![image](https://user-images.githubusercontent.com/70987343/144368750-77e04d88-54bf-4a80-996c-bf21293037ad.png)
 
 ## 기능 상세 소개
 ### 로그인
